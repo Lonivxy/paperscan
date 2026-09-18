@@ -1,0 +1,1197 @@
+{
+  "updated": "2026-09-18",
+  "papers": [
+    {
+      "code": "P58436A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "October 2019",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/ial-wma11-01-oct19.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA11_01_msc_20191022.pdf"
+    },
+    {
+      "code": "P58437A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "October 2019",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/ial-wma12-01-nov19.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA12_01_msc_20190815.pdf"
+    },
+    {
+      "code": "P60705A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "June 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM03_01_que_20210507.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM03_01_rms_20210604.pdf"
+    },
+    {
+      "code": "P60791A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "January 2019",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-que-20190109.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-msc-20190307.pdf"
+    },
+    {
+      "code": "P60796A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "January 2020",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-que-20200305.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA11_01_rms_20200305.pdf"
+    },
+    {
+      "code": "P61648A",
+      "unit": "WDM11/01",
+      "name": "Decision Mathematics D1",
+      "session": "June 2019",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wdm11-01-que-20190621.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wdm11-01-rms-20190815.pdf"
+    },
+    {
+      "code": "P61837A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "June 2019",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-que-20190523.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-rms-20190815.pdf"
+    },
+    {
+      "code": "P62721A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "June 2019",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-que-20190619.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-mcs-20190815.pdf"
+    },
+    {
+      "code": "P63153A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "June 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst03-01-que-20210507.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST03_01_rms_20210604.pdf"
+    },
+    {
+      "code": "P63154A",
+      "unit": "WDM11/01",
+      "name": "Decision Mathematics D1",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wdm11-01-que-20230126.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wdm11-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P64769A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "October 2020",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst03-01-que-20201013.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST03_01_msc_20210113.pdf"
+    },
+    {
+      "code": "P64770A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "October 2020",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm03-01-que-20201016.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM03_01_msc_202010113.pdf"
+    },
+    {
+      "code": "P65758RA",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "October 2020",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma13-01-que-20201009.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA13_01_msc_20210113.pdf"
+    },
+    {
+      "code": "P65759A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "October 2020",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma14-01-que-20201014.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA14_01_msc_20210113.pdf"
+    },
+    {
+      "code": "P65760A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "October 2020",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme01-01-que-20201017.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME01_01_msc_20210113.pdf"
+    },
+    {
+      "code": "P65761A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "October 2020",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst01-01-que-20201023.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST01_01_msc_20210113.pdf"
+    },
+    {
+      "code": "P65792A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "June 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-que-20210422.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA11_01_msc_20210517.pdf"
+    },
+    {
+      "code": "P65793A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "June 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-que-20210430.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA12_01_msc_20210517.pdf"
+    },
+    {
+      "code": "P66007A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "June 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma13-01-que-20210430.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA13_01_msc_20210517.pdf"
+    },
+    {
+      "code": "P66008A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "June 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma14-01-que-20210507.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA14_01_rms_20210604.pdf"
+    },
+    {
+      "code": "P66060A",
+      "unit": "WFM01/01",
+      "name": "Further Pure FP1",
+      "session": "June 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm01-01-que-20210430.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM01_01_msc_20210517.pdf"
+    },
+    {
+      "code": "P66392A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "June 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME03_01_que_20210430.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME03_01_msc_20210517.pdf"
+    },
+    {
+      "code": "P66645A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA11_01_que_20211008.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA11_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P66646A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-que-20220119.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA12_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P66647A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma13-01-que-20220527.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma13-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P66648A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA14_01_que_20220121.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA14_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P66649A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme01-01-que-20211014.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME01_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P66650A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme02-01-que-20220517.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme02-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P66652A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST01_01_que_20220113.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST01_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P66653A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst02-01-que-20220601.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst02-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P68783A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME01_01_que_20220111.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME01_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P69193A",
+      "unit": "WFM02/01",
+      "name": "Further Pure FP2",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM02_01_que_20211023.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM02_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P69198A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA14_01_que_20211029.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA14_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P69199A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA12_01_que_20211013.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA12_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P69204A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA13_01_que_20211022.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA13_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P69288A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm03-01-que-20211027.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM03_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P69289A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME02_01_que_20220122.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME02_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P69290A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME02_01_que_20211019.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME02_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P69311A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA13_01_que_20220114.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA13_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P69351A",
+      "unit": "WDM11/01",
+      "name": "Decision Mathematics D1",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WDM11_01_que_20211020.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WDM11_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P69457A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "October 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-que-20221015.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-rms-20230112.pdf"
+    },
+    {
+      "code": "P69458A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-que-20220513.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P70349A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA14_01_Jan22_UNUSED.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA14_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P70482A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA11_01_que_20220112.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WMA11_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P71099A",
+      "unit": "WFM01/01",
+      "name": "Further Pure FP1",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM01_01_que_20220115.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM01_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P71100A",
+      "unit": "WFM01/01",
+      "name": "Further Pure FP1",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM01_01_que_20211015.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM01_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P71101A",
+      "unit": "WFM02/01",
+      "name": "Further Pure FP2",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm02-01-que-20220108.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM02_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P71102A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM03_01_que_20220113.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WFM03_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P71200A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst01-01-que-20220526.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst01-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P71201A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST02_01_que_20220118.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST02_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P71284A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST01_01_que_20211012.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST01_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P71285A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst02-01-que-20211016.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST02_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P71287A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst03-01-que-20211030.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST03_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P71377A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-que-20220520.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P71379A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "October 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma13-01-que-20221020.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma13-01-rms-20230112.pdf"
+    },
+    {
+      "code": "P71381A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma14-01-que-20220602.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma14-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P71403A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme01-01-que-20220511.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme01-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P71668A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "October 2021",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME03_01_que_20211026.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME03_01_rms_20220113.pdf"
+    },
+    {
+      "code": "P71859A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST03_01_Jan22_UNUSED.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST03_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P71979A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME03_01_Jan22_UNUSED.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME03_01_rms_UNUSED.pdf"
+    },
+    {
+      "code": "P71980RA",
+      "unit": "WDM11/01",
+      "name": "Decision Mathematics D1",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WDM11_01_que_20220118.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WDM11_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P72066A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-que-20230110.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72067A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-que-20230117.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma12-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72068A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "October 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma14-01-que-20221025.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma14-01-rms-20230112.pdf"
+    },
+    {
+      "code": "P72070A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme01-01-que-20230118.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme01-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72071A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme02-01-que-20230120.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme02-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72072A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst01-01-que-20230119.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst01-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72073A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst02-01-que-20230121.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst02-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72137A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "October 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-que-20221011.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma11-01-rms-20230112.pdf"
+    },
+    {
+      "code": "P72138A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma13-01-que-20230113.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma13-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72151A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "October 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme01-01-que-20221018.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme01-01-rms-20230112.pdf"
+    },
+    {
+      "code": "P72153A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "October 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme02-01-que-20221028.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme02-01-rms-20230112.pdf"
+    },
+    {
+      "code": "P72154A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "October 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst01-01-que-20221014.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst01-01-rms-20230112.pdf"
+    },
+    {
+      "code": "P72155A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "October 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst02-01-que-20221021.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst02-01-rms-20230112.pdf"
+    },
+    {
+      "code": "P72402A",
+      "unit": "WFM02/01",
+      "name": "Further Pure FP2",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm02-01-que-20220608.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm02-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P72403A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm03-01-que-20220615.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm03-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P72404A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme03-01-que-20220120.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WME03_01_rms_UNUSED.pdf"
+    },
+    {
+      "code": "P72405A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "January 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST03_01_que_20220125.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/WST03_01_rms_20220303.pdf"
+    },
+    {
+      "code": "P72458A",
+      "unit": "WDM11/01",
+      "name": "Decision Mathematics D1",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wdm11-01-que-20220518.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wdm11-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P72464A",
+      "unit": "WFM01/01",
+      "name": "Further Pure FP1",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm01-01-que-20230112.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm01-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72467A",
+      "unit": "WFM02/01",
+      "name": "Further Pure FP2",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm02-01-que-20230119.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm02-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72468A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm03-01-que-20230114.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm03-01-rms-20230302-updated.pdf"
+    },
+    {
+      "code": "P72469A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst03-01-que-20220611.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst03-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P72854A",
+      "unit": "WFM02/01",
+      "name": "Further Pure FP2",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm02-01-que-20230609.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm02-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72855A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm03-01-que-20230616.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm03-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72868RRA",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-que-20230510.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72869A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-que-20230519.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72870A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-que-20230601.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72871A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma14-01-que-20230120.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wma14-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P72902A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-que-20230517.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72903A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-que-20230526.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72904A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-que-20230512.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72905A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-que-20230524.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P72906A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst03-01-que-20230112.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wst03-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P73334A",
+      "unit": "WFM01/01",
+      "name": "Further Pure FP1",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm01-01-que-20220524.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wfm01-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P73481A",
+      "unit": "WDM11/01",
+      "name": "Decision Mathematics D1",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wdm11-01-que-20240111.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wdm11-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P73486A",
+      "unit": "WFM01/01",
+      "name": "Further Pure FP1",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm01-01-que-20230531.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm01-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P73487A",
+      "unit": "WFM02/01",
+      "name": "Further Pure FP2",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm02-01-que-20240116.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm02-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P73488A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm03-01-que-20240123.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm03-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P73489A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst03-01-que-20230614.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst03-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P73575A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "June 2022",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme03-01-que-20220531.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme03-01-rms-20220818.pdf"
+    },
+    {
+      "code": "P74306A",
+      "unit": "WDM11/01",
+      "name": "Decision Mathematics D1",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wdm11-01-que-20240517.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wdm11-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P74307A",
+      "unit": "WDM11/01",
+      "name": "Decision Mathematics D1",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wdm11-01-que-20230603.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wdm11-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P74308A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme03-01-que-20230607.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme03-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P74309A",
+      "unit": "WFM01/01",
+      "name": "Further Pure FP1",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm01-01-que-20240113.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm01-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74310A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-que-20240110.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74311A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-que-20240117.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74312A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "January 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme03-01-que-20230111.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International%20Advanced%20Level/Mathematics/2018/Exam-materials/wme03-01-rms-20230302.pdf"
+    },
+    {
+      "code": "P74313A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-que-20240109.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74315RA",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-que-20240607.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P74316A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "October 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-que-20231010.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-rms-20240118.pdf"
+    },
+    {
+      "code": "P74317A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-que-20240118.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74318A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-que-20240112.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74319A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "October 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-que-20231014.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-rms-20240118.pdf"
+    },
+    {
+      "code": "P74320A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-que-20240111.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74321A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "October 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-que-20231017.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-rms-20240118.pdf"
+    },
+    {
+      "code": "P74322A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-que-20240113.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74323A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "October 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-que-20231027.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-rms-20240118.pdf"
+    },
+    {
+      "code": "P74324A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme03-01-que-20240120.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme03-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P74325A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "October 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-que-20231013.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-rms-20240118.pdf"
+    },
+    {
+      "code": "P74327A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "October 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-que-20231020.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-rms-20240118.pdf"
+    },
+    {
+      "code": "P74328A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "October 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-que-20231019.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-rms-20240118.pdf"
+    },
+    {
+      "code": "P74329A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "June 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-que-20230610.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-rms-20230817.pdf"
+    },
+    {
+      "code": "P74881A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-que-20240119.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P75601A",
+      "unit": "WFM02/01",
+      "name": "Further Pure FP2",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm02-01-que-20240605.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm02-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75603A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "January 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst03-01-que-20240120.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst03-01-rms-20240307.pdf"
+    },
+    {
+      "code": "P75707A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-que-20240510.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75708A",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-que-20240515.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75709RA",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-que-20240531.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75710A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "October 2023",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-que-20231024.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-rms-20240118.pdf"
+    },
+    {
+      "code": "P75717A",
+      "unit": "WFM03/01",
+      "name": "Further Pure FP3",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm03-01-que-20240612.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm03-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75718RA",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-que-20240508.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75719A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-que-20240601.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75720RA",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-que-20240522.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75722A",
+      "unit": "WST03/01",
+      "name": "Statistics S3",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst03-01-que-20240614.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst03-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75743A",
+      "unit": "WFM01/01",
+      "name": "Further Pure FP1",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm01-01-que-20240524.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wfm01-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P75744A",
+      "unit": "WME03/01",
+      "name": "Mechanics M3",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme03-01-que-20240613.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme03-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P76181A",
+      "unit": "WME01/01",
+      "name": "Mechanics M1",
+      "session": "October 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-que-20241012.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme01-01-rms-20250116.pdf"
+    },
+    {
+      "code": "P76182A",
+      "unit": "WME02/01",
+      "name": "Mechanics M2",
+      "session": "October 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-que-20241024.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wme02-01-rms-20250116.pdf"
+    },
+    {
+      "code": "P76183A",
+      "unit": "WST01/01",
+      "name": "Statistics S1",
+      "session": "October 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-que-20241018.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst01-01-rms-20250116.pdf"
+    },
+    {
+      "code": "P76184A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-que-20240608.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-rms-20240815.pdf"
+    },
+    {
+      "code": "P76186A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "October 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-que-20241010.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-rms-20250116.pdf"
+    },
+    {
+      "code": "P76187RA",
+      "unit": "WMA12/01",
+      "name": "Pure Mathematics P2",
+      "session": "October 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-que-20241016.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01-rms-20250116.pdf"
+    },
+    {
+      "code": "P76188A",
+      "unit": "WMA13/01",
+      "name": "Pure Mathematics P3",
+      "session": "October 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-que-20241022.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma13-01-rms-20250116.pdf"
+    },
+    {
+      "code": "P76189A",
+      "unit": "WMA14/01",
+      "name": "Pure Mathematics P4",
+      "session": "October 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-que-20241029.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma14-01-rms-20250116.pdf"
+    },
+    {
+      "code": "P76193A",
+      "unit": "WMA11/01",
+      "name": "Pure Mathematics P1",
+      "session": "January 2025",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-que-20250110.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01-rms-20250306.pdf"
+    },
+    {
+      "code": "P76388A",
+      "unit": "WMA11/01R",
+      "name": "Pure Mathematics P1 (R)",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01r-que-20240510.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma11-01r-rms-20240815.pdf"
+    },
+    {
+      "code": "P76389A",
+      "unit": "WMA12/01R",
+      "name": "Pure Mathematics P2 (R)",
+      "session": "June 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01r-que-20240515.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wma12-01r-rms-20240815.pdf"
+    },
+    {
+      "code": "P78915A",
+      "unit": "WST02/01",
+      "name": "Statistics S2",
+      "session": "October 2024",
+      "qp": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-que-20241101.pdf",
+      "ms": "https://qualifications.pearson.com/content/dam/pdf/International-Advanced-Level/Mathematics/2018/Exam-materials/wst02-01-rms-20250116.pdf"
+    }
+  ]
+}
