@@ -17,9 +17,10 @@ function fakeOutput() {
   };
 }
 
-test('successful scan displays the full barcode, fades it, then turns the page', () => {
+test('successful scan rises into place, fragments left-to-right, then turns the page', () => {
   const output = fakeOutput();
   const scheduled = [];
+  const fragmentCalls = [];
   let completed = false;
   const schedule = (callback, delay) => scheduled.push({ callback, delay });
 
@@ -27,17 +28,19 @@ test('successful scan displays the full barcode, fades it, then turns the page',
     output,
     code: 'P59937A0116',
     schedule,
+    fragmentize: (element, code) => fragmentCalls.push({ element, code }),
     onComplete: () => { completed = true; },
   });
 
   assert.equal(output.value, 'P59937A0116');
   assert.equal(output.hidden, false);
   assert.equal(output.classList.contains('is-visible'), true);
-  assert.deepEqual(scheduled.map(item => item.delay), [900]);
+  assert.deepEqual(scheduled.map(item => item.delay), [1100]);
 
   scheduled.shift().callback();
   assert.equal(output.classList.contains('is-fading'), true);
-  assert.deepEqual(scheduled.map(item => item.delay), [520]);
+  assert.deepEqual(fragmentCalls, [{ element: output, code: 'P59937A0116' }]);
+  assert.deepEqual(scheduled.map(item => item.delay), [900]);
 
   scheduled.shift().callback();
   assert.equal(completed, true);

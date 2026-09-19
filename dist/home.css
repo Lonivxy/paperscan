@@ -176,13 +176,13 @@
   top: 101px;
   left: 20px;
   right: 20px;
-  color: #f5ffe6;
+  color: var(--green);
   font: 750 clamp(20px, 5vw, 30px)/1 ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: .16em;
   text-align: center;
   text-shadow: 0 0 18px rgba(196,243,103,.65);
   opacity: 0;
-  transform: translateY(8px) scale(.96);
+  transform: translateY(112px) scale(.9);
 }
 
 .scan-result.is-visible {
@@ -190,7 +190,32 @@
 }
 
 .scan-result.is-fading {
-  animation: code-vanish .52s cubic-bezier(.55,0,1,.45) forwards;
+  opacity: 0;
+}
+
+.fragment-field {
+  position: absolute;
+  z-index: 6;
+  top: 101px;
+  left: 20px;
+  right: 20px;
+  height: 32px;
+  pointer-events: none;
+}
+
+.fragment-field span {
+  position: absolute;
+  inset: 0;
+  color: var(--green);
+  font: 750 clamp(20px, 5vw, 30px)/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .16em;
+  text-align: center;
+  text-shadow: 0 0 18px rgba(196,243,103,.65);
+  will-change: transform, opacity, filter;
+}
+
+.fragment-field.is-dissolving span {
+  animation: fragment-away .38s cubic-bezier(.45,.05,.9,.4) var(--delay) forwards;
 }
 
 .scanner.resolved .scan-demo,
@@ -292,14 +317,16 @@
 }
 
 @keyframes code-appear {
-  from { opacity: 0; transform: translateY(10px) scale(.94); filter: blur(7px); letter-spacing: .3em; }
-  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); letter-spacing: .16em; }
+  0% { opacity: 0; color: #020805; transform: translateY(112px) scale(.9); filter: blur(3px); letter-spacing: .08em; text-shadow: none; }
+  18% { opacity: 1; color: #020805; }
+  72% { color: #54753e; text-shadow: 0 0 4px rgba(196,243,103,.15); }
+  100% { opacity: 1; color: var(--green); transform: translateY(0) scale(1); filter: blur(0); letter-spacing: .16em; text-shadow: 0 0 18px rgba(196,243,103,.65); }
 }
 
-@keyframes code-vanish {
-  0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  55% { opacity: .5; letter-spacing: .28em; }
-  100% { opacity: 0; transform: translateY(-18px) scale(1.04); filter: blur(9px); letter-spacing: .38em; }
+@keyframes fragment-away {
+  0% { opacity: 1; transform: translate(0,0) rotate(0); filter: blur(0); }
+  38% { opacity: .96; }
+  100% { opacity: 0; transform: translate(var(--dx),var(--dy)) rotate(var(--spin)) scale(.52); filter: blur(3px); }
 }
 
 @media (max-width: 600px) {
@@ -321,9 +348,11 @@
 @media (prefers-reduced-motion: reduce) {
   .paper-slip,
   .scan-beam,
-  .scan-result { animation: none; }
+  .scan-result,
+  .fragment-field span { animation: none; }
   .paper-slip { transform: translate(-50%, 8px); opacity: 1; }
   .scan-beam { transform: translateY(48px); opacity: .8; }
   .scan-result.is-visible { opacity: 1; transform: none; }
   .scan-result.is-fading { opacity: 0; }
+  .fragment-field { display: none; }
 }
