@@ -1,6 +1,6 @@
 'use strict';
 const $=id=>document.getElementById(id);
-function navigate(url){document.body.classList.add('page-leaving');setTimeout(()=>location.href=url,170)}
+function navigate(url){document.body.classList.add('page-leaving');setTimeout(()=>location.href=url,330)}
 function parseBarcode(raw){const v=(raw||'').toUpperCase().replace(/[\s*]/g,'');const m=/^(P\d{5,7}[A-Z]{1,3})(\d*)$/.exec(v);if(!m)return null;const suffix=m[2];if(!suffix)return {code:m[1],page:null,total:null};if(suffix.length<3)return null;const page=Number.parseInt(suffix.slice(0,-2),10),total=Number.parseInt(suffix.slice(-2),10);return page>0&&page<=total?{code:m[1],page,total}:null}
 function node(tag,text,cls){const e=document.createElement(tag);if(text)e.textContent=text;if(cls)e.className=cls;return e}
 function resource(url,title,subtitle,cls){const a=node('a',null,'doc-link '+(cls||''));a.href=url;const t=node('span',title);t.append(node('small',subtitle));a.append(t,node('span','↗'));return a}

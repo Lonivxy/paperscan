@@ -5,10 +5,11 @@
 .scan-title{display:none}.scanner.active .scan-title{display:block;position:absolute;top:16px;left:50%;z-index:1;transform:translateX(-50%);font-size:15px;letter-spacing:.2px}.scanner.active .viewfinder{top:62px}.scanner.active .stop{padding:10px 24px}
 
 @view-transition{navigation:auto}
-::view-transition-old(root){animation:page-out .2s ease both}
-::view-transition-new(root){animation:page-in .34s cubic-bezier(.2,.75,.25,1) both}
-body{transition:opacity .18s ease,transform .18s ease}
-body.page-leaving{opacity:0;transform:translateY(-7px)}
-@keyframes page-out{to{opacity:0;transform:translateY(-7px)}}
-@keyframes page-in{from{opacity:0;transform:translateY(12px)}}
-@media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}body{transition:none}.scanner.matched,.scanner.matched .viewfinder>span{animation:none}}
+::view-transition-group(root){perspective:1400px}
+::view-transition-old(root){transform-origin:left center;animation:page-out .34s cubic-bezier(.55,.05,.7,.2) both}
+::view-transition-new(root){transform-origin:right center;animation:page-in .48s cubic-bezier(.2,.75,.25,1) both}
+body{transition:opacity .32s ease,transform .32s cubic-bezier(.55,.05,.7,.2);transform-origin:left center}
+body.page-leaving{opacity:0;transform:perspective(1400px) rotateY(-9deg) translateX(-2%)}
+@keyframes page-out{to{opacity:0;transform:perspective(1400px) rotateY(-9deg) translateX(-2%)}}
+@keyframes page-in{from{opacity:0;transform:perspective(1400px) rotateY(8deg) translateX(3%)}}
+@media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}body{transition:none}body.page-leaving{transform:none}.scanner.matched,.scanner.matched .viewfinder>span{animation:none}}
