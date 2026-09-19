@@ -326,7 +326,7 @@
 @keyframes fragment-away {
   0% { opacity: 1; transform: translate(0,0) rotate(0); filter: blur(0); }
   38% { opacity: .96; }
-  100% { opacity: 0; transform: translate(var(--dx),var(--dy)) rotate(var(--spin)) scale(.52); filter: blur(3px); }
+  100% { opacity: 0; transform: translate(var(--dx),var(--dy)) rotate(var(--spin)) scale(var(--shrink)); filter: blur(3px); }
 }
 
 @media (max-width: 600px) {

@@ -39,6 +39,7 @@ test('successful scan rises into place, fragments left-to-right, then turns the 
 
   scheduled.shift().callback();
   assert.equal(output.classList.contains('is-fading'), true);
+  assert.equal(output.classList.contains('is-visible'), false);
   assert.deepEqual(fragmentCalls, [{ element: output, code: 'P59937A0116' }]);
   assert.deepEqual(scheduled.map(item => item.delay), [900]);
 
