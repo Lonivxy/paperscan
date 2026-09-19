@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10281f"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="PaperScan"><meta name="description" content="扫描 Edexcel 数学试卷条码，查找对应试卷与评分标准。">
-<link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="icon" href="./icon.svg"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./home.css"><title>PaperScan · 数学试卷扫描</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10281f"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="PaperScan"><meta name="description" content="扫描 Edexcel IGCSE 与 IAL 试卷条码，查找对应试卷与评分标准。">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="icon" href="./icon.svg"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./home.css"><title>PaperScan · IGCSE / IAL 试卷扫描</title>
 </head><body class="home-page"><main class="home-shell">
 <header class="site-header"><a class="brand" href="./" aria-label="PaperScan 首页"><span class="brand-icon">▥</span>PaperScan</a><button id="install" class="text-button">添加到主屏幕 ↗</button></header>
 
@@ -26,11 +26,12 @@
     <div class="manual-panel">
       <form id="lookup"><label class="sr-only" for="code">试卷条码</label><div class="input-row"><input id="code" placeholder="例如 P76186A0628" autocapitalize="characters" autocomplete="off" spellcheck="false" maxlength="30" required><button class="find" type="submit" aria-label="查找试卷">查找 ↗</button></div></form>
       <div class="below"><button class="text-button" id="example">试试示例 P76186A</button><label class="photo">从照片识别<input type="file" id="photo" accept="image/*" hidden></label></div>
+      <p class="subject-list" id="subjectList"></p>
     </div>
   </details>
 
   <p class="coverage" id="coverage">正在载入试卷索引…</p>
 </section>
 
-<footer class="home-footer"><span>PaperScan</span><a href="https://qualifications.pearson.com/en/support/support-topics/exams/past-papers.html" target="_blank" rel="noopener">Pearson 官方来源 ↗</a></footer>
+<footer class="home-footer"><span>PaperScan</span><a href="https://www.paperlords.org/igcse" target="_blank" rel="noopener">试卷目录：PaperLords ↗</a></footer>
 </main><dialog id="installDialog"><h2>放到你的主屏幕</h2><p>1. 用 Safari 打开当前网页。</p><p>2. 点击底部或菜单中的「分享」。</p><p>3. 选择「添加到主屏幕」，点击「添加」。</p><form method="dialog"><button class="primary">知道了</button></form></dialog><script src="./vendor/zxing.min.js" defer></script><script src="./app.js" defer></script></body></html>
