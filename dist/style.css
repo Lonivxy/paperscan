@@ -3,3 +3,12 @@
 
 /* Keep scanning inside the original compact camera panel. */
 .scan-title{display:none}.scanner.active .scan-title{display:block;position:absolute;top:16px;left:50%;z-index:1;transform:translateX(-50%);font-size:15px;letter-spacing:.2px}.scanner.active .viewfinder{top:62px}.scanner.active .stop{padding:10px 24px}
+
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:page-out .2s ease both}
+::view-transition-new(root){animation:page-in .34s cubic-bezier(.2,.75,.25,1) both}
+body{transition:opacity .18s ease,transform .18s ease}
+body.page-leaving{opacity:0;transform:translateY(-7px)}
+@keyframes page-out{to{opacity:0;transform:translateY(-7px)}}
+@keyframes page-in{from{opacity:0;transform:translateY(12px)}}
+@media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}body{transition:none}.scanner.matched,.scanner.matched .viewfinder>span{animation:none}}
