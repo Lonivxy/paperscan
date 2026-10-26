@@ -1,2 +1,7 @@
 .openai/
 .DS_Store
+node_modules/
+.vite/
+/dist/
+/qa/
+/design-qa.md
