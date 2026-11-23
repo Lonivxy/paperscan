@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import type { ChangeEvent, FormEvent, SyntheticEvent } from "react";
 import {
   ArrowUpRight,
   Camera,
@@ -9,8 +9,6 @@ import {
   Image as ImageIcon,
   Keyboard,
   LoaderCircle,
-  ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Alert } from "@/components/arc/alert/alert";
@@ -69,7 +67,6 @@ function App() {
   const [mode, setMode] = useState<Mode>("camera");
   const [papers, setPapers] = useState<Paper[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
-  const [updated, setUpdated] = useState("");
   const [indexState, setIndexState] = useState<"loading" | "ready" | "error">("loading");
   const [notice, setNotice] = useState<Notice | null>(null);
   const [code, setCode] = useState("");
@@ -93,7 +90,6 @@ function App() {
       .then((index) => {
         setPapers(index.papers);
         setSubjects(index.subjects ?? []);
-        setUpdated(index.updated);
         setIndexState("ready");
       })
       .catch((error: unknown) => {
@@ -144,15 +140,15 @@ function App() {
   const openResult = useCallback((raw: string, options?: { silent?: boolean }) => {
     const barcode = parseBarcode(raw);
     if (!barcode) {
-      setNotice({ tone: "warning", title: "请检查条码", detail: "输入完整条码，例如 P61109A。" });
+      setNotice({ tone: "warning", title: "Check the code", detail: "Enter the full code, e.g. P61109A." });
       return;
     }
     if (indexState === "loading") {
-      setNotice({ tone: "info", title: "试卷索引正在载入", detail: "请稍候再试。" });
+      setNotice({ tone: "info", title: "Loading the paper index", detail: "Try again in a moment." });
       return;
     }
     if (indexState === "error") {
-      setNotice({ tone: "danger", title: "试卷索引暂时无法载入", detail: "请联网后刷新页面。" });
+      setNotice({ tone: "danger", title: "Paper index unavailable", detail: "Connect to the internet and refresh." });
       return;
     }
     const cleaned = String(raw).toUpperCase().replace(/[\s*]/g, "");
@@ -160,13 +156,13 @@ function App() {
     if (!papers.some((paper) => paper.code === barcode.code)) {
       setNotice({
         tone: "info",
-        title: `暂未收录 ${barcode.code}`,
-        detail: "可到 PaperLords 或 Pearson 目录查询。",
+        title: `Not in the index: ${barcode.code}`,
+        detail: "Look it up on PaperLords or Pearson.",
       });
       return;
     }
     if (!options?.silent) {
-      setNotice({ tone: "success", title: "条码已识别", detail: "正在打开对应试卷。" });
+      setNotice({ tone: "success", title: "Barcode found", detail: "Opening the paper." });
     }
     const resultUrl = new URL("result.html", window.location.href);
     resultUrl.searchParams.set("barcode", cleaned);
@@ -183,7 +179,7 @@ function App() {
     stopScan();
     const session = scanSessionRef.current;
     setMode("camera");
-    setNotice({ tone: "info", title: "正在开启相机", detail: "请允许 PaperScan 使用相机。" });
+    setNotice({ tone: "info", title: "Starting the camera", detail: "Allow PaperScan to use the camera." });
     setCameraActive(true);
     try {
       if (!navigator.mediaDevices?.getUserMedia || !videoRef.current) throw new Error("Camera unavailable");
@@ -212,8 +208,8 @@ function App() {
           } else {
             setNotice({
               tone: "warning",
-              title: "读到了其他条码",
-              detail: "请对准以 P 开头的试卷条码。",
+              title: "That's a different barcode",
+              detail: "Point at a paper code that starts with P.",
             });
           }
         },
@@ -223,16 +219,16 @@ function App() {
         return;
       }
       controlsRef.current = controls;
-      setNotice({ tone: "info", title: "正在扫描", detail: "将页面底部的完整条码放入取景框。" });
+      setNotice({ tone: "info", title: "Scanning", detail: "Center the full barcode from the bottom of the page." });
     } catch (error) {
       stopScan();
       const name = error instanceof Error ? error.name : "";
       setNotice({
         tone: "danger",
-        title: name === "NotAllowedError" ? "相机权限未开启" : "无法启动相机",
+        title: name === "NotAllowedError" ? "Camera access is off" : "Camera unavailable",
         detail: name === "NotAllowedError"
-          ? "请在浏览器设置中允许相机，或改用输入和照片识别。"
-          : "请改用输入条码或从照片识别。相机需要安全的 HTTPS 页面。",
+          ? "Allow the camera in browser settings, or use Code or Photo."
+          : "Use Code or Photo instead. The camera needs HTTPS.",
       });
     }
   }
@@ -242,10 +238,21 @@ function App() {
     openResult(code);
   }
 
+  // Arc's tab height morph can leave an inline height on the panel when content
+  // grows mid-transition; release it so an expanded list can't overlap the page below.
+  function releaseTabPanelHeight(event: SyntheticEvent<HTMLDetailsElement>) {
+    const panel = event.currentTarget.closest<HTMLElement>('[role="tabpanel"]');
+    if (!panel) return;
+    requestAnimationFrame(() => {
+      panel.style.height = "";
+      panel.style.overflow = "";
+    });
+  }
+
   function showExample() {
     setCode("P61109A");
     setCopiedExample(true);
-    setNotice({ tone: "info", title: "已填入示例条码", detail: "点击查找试卷查看对应试卷。" });
+    setNotice({ tone: "info", title: "Example code filled in", detail: "Tap Find paper to open it." });
     window.setTimeout(() => setCopiedExample(false), 2000);
   }
 
@@ -281,8 +288,8 @@ function App() {
       setPhotoState("idle");
       setNotice({
         tone: "warning",
-        title: "没有识别到清晰条码",
-        detail: "可裁剪到条码附近，或改为手动输入。",
+        title: "No clear barcode found",
+        detail: "Crop closer to the barcode, or enter the code.",
       });
     } finally {
       event.target.value = "";
@@ -317,7 +324,7 @@ function App() {
     <main className="app-shell">
       {/* M3 Small Top App Bar */}
       <motion.header className="site-header" {...rise(0)}>
-        <a className="brand" href={siteRoot.href} aria-label="PaperScan 首页">
+        <a className="brand" href={siteRoot.href} aria-label="PaperScan home">
           <img src={new URL("icon.svg", siteRoot).href} alt="" width="32" height="32" className="brand-icon" />
           <span className="brand-title">PaperScan</span>
         </a>
@@ -327,7 +334,7 @@ function App() {
           size="sm"
           onClick={() => setInstallOpen(true)}
         >
-          <span>添加到主屏幕</span>
+          <span>Install</span>
           <ArrowUpRight size={15} aria-hidden="true" />
         </Button>
       </motion.header>
@@ -335,13 +342,9 @@ function App() {
       {/* Main Content Area */}
       <section className="home-content" aria-labelledby="hero-title">
         <div className="hero-copy">
-          <motion.p className="hero-eyebrow" {...rise(0.02)}>
-            <span className="hero-eyebrow-dot" aria-hidden="true" />
-            Edexcel IGCSE · IAL
-          </motion.p>
           {/* Amicro-style text reveal: each phrase rises out of a blur in turn. */}
-          <h1 id="hero-title" aria-label="扫一下，打开试卷。">
-            {["扫一下，", "打开试卷。"].map((phrase, index) => (
+          <h1 id="hero-title" aria-label="Scan. Open. Done.">
+            {["Scan.", "Open.", "Done."].map((phrase, index) => (
               <motion.span
                 key={phrase}
                 className="hero-phrase"
@@ -359,7 +362,7 @@ function App() {
             ))}
           </h1>
           <motion.p className="hero-lede" {...rise(0.22)}>
-            对准页面底部的完整条码，快速打开真题与评分标准。
+            Point at the barcode at the bottom of any past paper.
           </motion.p>
         </div>
 
@@ -373,18 +376,18 @@ function App() {
           }}
           className="capture-tabs"
         >
-          <TabsList aria-label="选择识别方式">
+          <TabsList aria-label="Choose scan mode">
             <TabsTrigger value="camera">
               <Camera size={18} aria-hidden="true" />
-              <span>相机</span>
+              <span>Camera</span>
             </TabsTrigger>
             <TabsTrigger value="input">
               <Keyboard size={18} aria-hidden="true" />
-              <span>输入条码</span>
+              <span>Code</span>
             </TabsTrigger>
             <TabsTrigger value="photo">
               <ImageIcon size={18} aria-hidden="true" />
-              <span>从照片识别</span>
+              <span>Photo</span>
             </TabsTrigger>
           </TabsList>
 
@@ -392,9 +395,9 @@ function App() {
           <TabsContent value="camera" className="capture-panel-slot">
             <section
               className={`scan-panel${cameraActive ? " is-scanning" : ""}`}
-              aria-label="条码扫描器"
+              aria-label="Barcode scanner"
             >
-              <video ref={videoRef} className="camera-feed" muted playsInline aria-label="相机预览" />
+              <video ref={videoRef} className="camera-feed" muted playsInline aria-label="Camera preview" />
 
               {/* M3 Clean Viewfinder Reticle */}
               <div className="viewfinder-container" aria-hidden="true">
@@ -410,15 +413,12 @@ function App() {
                 </svg>
               </div>
 
-              {/* Viewfinder Prompt */}
-              <div className="scan-prompt" aria-live="polite">
-                <div className="prompt-glyph">
-                  <Camera size={30} strokeWidth={1.5} aria-hidden="true" />
+              {/* One instruction, only while the camera is live. */}
+              {cameraActive ? (
+                <div className="scan-prompt" aria-live="polite">
+                  <p className="prompt-text">Center the full barcode</p>
                 </div>
-                <p className="prompt-text">
-                  {cameraActive ? "将完整条码放入取景框" : "对准页面底部的完整条码"}
-                </p>
-              </div>
+              ) : null}
 
               {/* M3 Extended Floating Action Button (FAB) */}
               <motion.div
@@ -435,12 +435,12 @@ function App() {
                   {cameraActive ? (
                     <>
                       <LoaderCircle size={22} className="button-spinner" aria-hidden="true" />
-                      <span>停止扫描</span>
+                      <span>Stop</span>
                     </>
                   ) : (
                     <>
                       <Camera size={22} aria-hidden="true" />
-                      <span>开启相机扫描</span>
+                      <span>Open camera</span>
                     </>
                   )}
                 </Button>
@@ -451,23 +451,12 @@ function App() {
 
           {/* Manual Input Tab Content */}
           <TabsContent value="input" className="capture-panel-slot">
-            <section className="mode-panel mode-panel-light" aria-labelledby="barcode-title">
-              <div className="mode-heading">
-                <div className="mode-icon">
-                  <Keyboard size={20} aria-hidden="true" />
-                </div>
-                <div>
-                  <h2 id="barcode-title">输入试卷条码</h2>
-                  <p>完整条码通常以 P 开头，位于试卷每页最底端。</p>
-                </div>
-              </div>
-
+            <section className="mode-panel mode-panel-light" aria-label="Enter paper code">
               <form className="lookup-form" onSubmit={submitBarcode}>
                 <div className="input-field-wrapper">
                   <Input
                     id="barcode-input"
-                    label="试卷条码"
-                    placeholder="例如 P61109A"
+                    label="Paper code"
                     value={code}
                     onChange={(event) => setCode(event.target.value)}
                     autoCapitalize="characters"
@@ -479,7 +468,7 @@ function App() {
                 </div>
                 <motion.div whileTap={{ scale: 0.98 }}>
                   <Button className="lookup-action" variant="primary" type="submit">
-                    <span>查找试卷</span>
+                    <span>Find paper</span>
                     <ArrowUpRight size={17} aria-hidden="true" />
                   </Button>
                 </motion.div>
@@ -496,17 +485,15 @@ function App() {
                 >
                   {copiedExample ? (
                     <Check size={14} className="chip-icon-active" aria-hidden="true" />
-                  ) : (
-                    <Sparkles size={14} aria-hidden="true" />
-                  )}
-                  <span>试试示例 P61109A</span>
+                  ) : null}
+                  <span>Example P61109A</span>
                 </motion.button>
               </div>
 
               {/* Clean M3 Subjects Details */}
-              <details className="subjects-details">
+              <details className="subjects-details" onToggle={releaseTabPanelHeight}>
                 <summary>
-                  <span>查看支持的科目 ({subjects.length})</span>
+                  <span>Supported subjects</span>
                   <ChevronDown size={15} className="details-chevron" aria-hidden="true" />
                 </summary>
                 <div className="subjects-list">
@@ -522,12 +509,7 @@ function App() {
 
           {/* Photo Import Tab Content */}
           <TabsContent value="photo" className="capture-panel-slot">
-            <section className="photo-upload" aria-labelledby="photo-title">
-              <div className="photo-intro">
-                <h2 id="photo-title">从照片识别</h2>
-                <p>选择一张包含完整条码的试卷照片</p>
-              </div>
-
+            <section className="photo-upload" aria-label="From photo">
               <input
                 ref={photoRef}
                 className="visually-hidden"
@@ -550,21 +532,21 @@ function App() {
                 {photoState === "done" ? (
                   <>
                     <Check size={20} aria-hidden="true" />
-                    <span>已识别</span>
+                    <span>Found</span>
                   </>
                 ) : (
                   <>
                     <ImageIcon size={20} aria-hidden="true" />
-                    <span>选择试卷照片</span>
+                    <span>Choose photo</span>
                   </>
                 )}
               </Button>
 
               <p className="visually-hidden" aria-live="polite">
                 {photoState === "busy"
-                  ? "正在识别照片"
+                  ? "Reading the photo"
                   : photoState === "done"
-                    ? "条码已识别，正在打开试卷"
+                    ? "Barcode found, opening the paper"
                     : ""}
               </p>
 
@@ -574,55 +556,41 @@ function App() {
         </Tabs>
         </motion.div>
 
-        {/* Quiet metadata: coverage, freshness, privacy */}
-        <motion.section className="meta-block" aria-label="试卷索引覆盖范围" {...rise(0.22)}>
+        {/* One quiet line: coverage + source */}
+        <motion.section className="meta-block" aria-label="Paper index coverage" {...rise(0.22)}>
           <div className="meta-line">
             <FileText size={16} strokeWidth={1.75} aria-hidden="true" />
             {indexState === "loading" ? (
-              <Skeleton className="coverage-skeleton" label="正在载入试卷索引" lines={1} />
+              <Skeleton className="coverage-skeleton" label="Loading the paper index" lines={1} />
             ) : indexState === "error" ? (
-              <span>试卷索引暂时无法载入，请联网后刷新。</span>
+              <span>The paper index can&apos;t load. Refresh when online.</span>
             ) : (
               <span>
-                已收录 <strong>{papers.length.toLocaleString()}</strong> 份试卷 · {subjects.length} 个科目
+                <strong>{papers.length.toLocaleString()}</strong> IGCSE / IAL papers · {subjects.length} subjects
               </span>
             )}
-          </div>
-          <div className="meta-line meta-sub">
-            <ShieldCheck size={14} aria-hidden="true" />
-            <span>条码在本机识别，照片不会上传</span>
-            {updated ? <span className="meta-date">更新 {updated}</span> : null}
+            <a
+              className="meta-link"
+              href="https://www.paperlords.org/igcse"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              PaperLords
+              <ArrowUpRight size={12} aria-hidden="true" />
+            </a>
           </div>
         </motion.section>
       </section>
 
-      {/* Footer */}
-      <motion.footer className="home-footer" {...rise(0.28)}>
-        <div className="footer-left">
-          <span>PaperScan</span>
-          <span className="footer-dot">·</span>
-          <span>Edexcel IGCSE & IAL</span>
-        </div>
-        <a
-          href="https://www.paperlords.org/igcse"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="footer-link"
-        >
-          <span>试卷目录：PaperLords</span>
-          <ArrowUpRight size={12} aria-hidden="true" />
-        </a>
-      </motion.footer>
-
       {/* Install Dialog */}
       <Dialog open={installOpen} onOpenChange={setInstallOpen}>
-        <DialogContent title="添加到主屏幕" description="下次从主屏幕即可快速打开 PaperScan 查题。">
+        <DialogContent title="Add to Home Screen" description="Open PaperScan from your home screen next time.">
           <ol className="install-steps">
-            <li>在浏览器工具栏中打开「分享」菜单。</li>
-            <li>在选项中选择「添加到主屏幕」。</li>
-            <li>点击「添加」完成安装。</li>
+            <li>Open the Share menu in your browser.</li>
+            <li>Choose Add to Home Screen.</li>
+            <li>Tap Add to finish.</li>
           </ol>
-          <p className="install-hint">菜单名称可能因浏览器与操作系统略有差异。</p>
+          <p className="install-hint">Menu names vary by browser and system.</p>
         </DialogContent>
       </Dialog>
     </main>

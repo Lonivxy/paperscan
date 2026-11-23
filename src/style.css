@@ -1,7 +1,24 @@
 /* ==========================================================================
    PaperScan - Google Material Design 3 (M3) Baseline Purple Theme
-   Follows Official Google Material 3 Guidelines (m3.material.io)
+   Follows Official Material 3 Guidelines (m3.material.io)
    ========================================================================== */
+
+/* Self-hosted variable fonts; Chinese falls through to the system UI face. */
+@font-face {
+  font-family: "BBH Bogle";
+  src: url("./assets/fonts/bbh-bogle-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Firjar";
+  src: url("./assets/fonts/firjar-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   color-scheme: light dark;
@@ -58,7 +75,7 @@
   --md-sys-shape-corner-sm: 8px;
   --md-sys-shape-corner-md: 12px;
   --md-sys-shape-corner-lg: 16px;
-  --md-sys-shape-corner-xl: 24px;
+  --md-sys-shape-corner-xl: 28px;
   --md-sys-shape-corner-full: 9999px;
 
   /* ------------------------------------------------------------------------
@@ -68,6 +85,50 @@
   --md-sys-elevation-1: 0 1px 3px 1px rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.30);
   --md-sys-elevation-2: 0 2px 6px 2px rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.30);
   --md-sys-elevation-3: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.30);
+  --md-sys-elevation-4: 0 6px 10px 4px rgba(0, 0, 0, 0.15), 0 2px 3px 0 rgba(0, 0, 0, 0.30);
+  --md-sys-elevation-5: 0 8px 12px 6px rgba(0, 0, 0, 0.15), 0 4px 4px 0 rgba(0, 0, 0, 0.30);
+
+  /* ------------------------------------------------------------------------
+     Material Design 3 State Layer Opacities
+     ------------------------------------------------------------------------ */
+  --md-sys-state-hover-opacity: 0.08;
+  --md-sys-state-focus-opacity: 0.10;
+  --md-sys-state-pressed-opacity: 0.12;
+  --md-sys-state-dragged-opacity: 0.16;
+
+  /* ------------------------------------------------------------------------
+     Material Design 3 Motion Tokens
+     ------------------------------------------------------------------------ */
+  --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-duration-short2: 100ms;
+  --md-sys-motion-duration-short4: 200ms;
+  --md-sys-motion-duration-medium2: 300ms;
+  --md-sys-motion-duration-long2: 500ms;
+
+  /* ------------------------------------------------------------------------
+     Material Design 3 Type Scale
+     ------------------------------------------------------------------------ */
+  --md-sys-typescale-display-small-size: 36px;
+  --md-sys-typescale-display-small-line: 44px;
+  --md-sys-typescale-headline-small-size: 24px;
+  --md-sys-typescale-headline-small-line: 32px;
+  --md-sys-typescale-title-large-size: 22px;
+  --md-sys-typescale-title-large-line: 28px;
+  --md-sys-typescale-title-medium-size: 16px;
+  --md-sys-typescale-title-medium-line: 24px;
+  --md-sys-typescale-body-large-size: 16px;
+  --md-sys-typescale-body-large-line: 24px;
+  --md-sys-typescale-body-medium-size: 14px;
+  --md-sys-typescale-body-medium-line: 20px;
+  --md-sys-typescale-body-small-size: 12px;
+  --md-sys-typescale-body-small-line: 16px;
+  --md-sys-typescale-label-large-size: 14px;
+  --md-sys-typescale-label-large-line: 20px;
+  --md-sys-typescale-label-medium-size: 12px;
+  --md-sys-typescale-label-medium-line: 16px;
 
   /* ------------------------------------------------------------------------
      Arc UI (@uiarc) Token Mapping
@@ -88,7 +149,8 @@
   --accent-foreground: var(--md-sys-color-on-primary);
 
   /* Typography */
-  --font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Google Sans Text", sans-serif;
+  --font-family: "Firjar", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Google Sans Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-title: "BBH Bogle", var(--font-family);
   --font-mono: Roboto Mono, ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
   font-family: var(--font-family);
@@ -180,20 +242,7 @@ body {
   color: var(--foreground);
 }
 
-/* A single tonal wash behind the page: M3 keeps surfaces flat, so one soft
-   primary-container glow carries depth without adding cards or shadows. */
-body::before {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: radial-gradient(
-    120% 62% at 50% -16%,
-    color-mix(in oklab, var(--md-sys-color-primary-container) 72%, transparent),
-    transparent 70%
-  );
-  content: "";
-  pointer-events: none;
-}
+/* Pure-color surfaces only: no washes, glows, or gradients. */
 
 button, input {
   font: inherit;
@@ -254,6 +303,7 @@ a {
 
 .brand {
   display: inline-flex;
+  min-height: 48px;
   align-items: center;
   gap: 10px;
   color: var(--md-sys-color-on-surface);
@@ -268,19 +318,24 @@ a {
 }
 
 .brand-title {
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: -0.015em;
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
   color: var(--md-sys-color-on-surface);
 }
 
 .install-action {
-  min-height: 40px;
-  padding-inline: 12px;
+  min-height: 48px;
+  padding-inline: 16px;
+  border: 1px solid var(--md-sys-color-outline-variant);
   border-radius: var(--md-sys-shape-corner-full);
   color: var(--md-sys-color-primary);
-  font-size: 14px;
+  font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 500;
+  line-height: var(--md-sys-typescale-label-large-line);
   gap: 6px;
 }
 
@@ -303,38 +358,24 @@ a {
   margin: 0 0 28px 2px;
 }
 
-.hero-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 10px;
-  color: var(--md-sys-color-primary);
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.hero-eyebrow-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-}
-
 .hero-phrase {
   display: inline-block;
   white-space: nowrap;
 }
 
+.hero-phrase + .hero-phrase {
+  margin-left: 0.28em;
+}
+
 .hero-copy h1 {
   margin: 0;
   color: var(--md-sys-color-on-surface);
-  font-size: clamp(30px, 7vw, 42px);
-  font-weight: 500;
-  line-height: 1.18;
-  letter-spacing: -0.025em;
+  font-family: var(--font-title);
+  font-size: clamp(34px, 10vw, 58px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
@@ -342,13 +383,15 @@ a {
   max-width: 30em;
   margin: 12px 0 0;
   color: var(--md-sys-color-on-surface-variant);
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line);
   text-wrap: balance;
 }
 
 /* --------------------------------------------------------------------------
-   M3 Primary Navigation Tabs (Borderless & Pure Horizontal)
+   M3 Connected Button Group (mode selector)
+   Round segments with a small gap; the selected segment is a solid pill.
+   Tonal style: secondary-container segments, secondary for the selection.
    -------------------------------------------------------------------------- */
 .capture-tabs {
   width: 100%;
@@ -367,15 +410,17 @@ a {
 }
 
 .capture-tabs [role="tablist"] {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: stretch;
+  margin-inline: auto;
+  overflow: visible;
   border: none !important;
-  border-bottom: 1px solid var(--md-sys-color-outline-variant) !important;
+  border-radius: 0 !important;
   background: transparent !important;
   padding: 0 !important;
-  gap: 0 !important;
-  border-radius: 0 !important;
+  gap: 2px !important;
   box-shadow: none !important;
 }
 
@@ -386,74 +431,68 @@ a {
   align-items: center;
   justify-content: center;
   padding: 0 16px;
-  color: var(--md-sys-color-on-surface-variant);
-  font-size: 14px;
+  color: var(--md-sys-color-on-secondary-container);
+  font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 500;
-  background: transparent !important;
+  line-height: var(--md-sys-typescale-label-large-line);
+  background: var(--md-sys-color-secondary-container) !important;
   border: none !important;
-  border-radius: 0 !important;
+  border-radius: var(--md-sys-shape-corner-full) !important;
   box-shadow: none !important;
   outline: none !important;
   cursor: pointer;
   user-select: none;
-  transition: color 150ms ease;
+  transition:
+    background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard),
+    color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard),
+    border-radius 220ms var(--ease-spring),
+    transform 160ms var(--md-sys-motion-easing-emphasized-decelerate);
 }
 
-/* M3 state layer: a pill behind the icon + label, not a full-cell fill. */
-.capture-tabs [role="tab"]::before {
-  position: absolute;
-  z-index: 0;
-  inset: 7px 8px;
-  border-radius: var(--md-sys-shape-corner-full);
-  background: transparent;
-  content: "";
-  pointer-events: none;
-  transition: background-color 160ms ease;
+/* Press feedback: the segment answers the finger. */
+.capture-tabs [role="tab"]:active {
+  transform: scale(0.97);
 }
 
-.capture-tabs [role="tab"]:hover::before {
-  background: color-mix(in oklab, var(--md-sys-color-primary) 8%, transparent);
-}
-
-.capture-tabs [role="tab"]:active::before {
-  background: color-mix(in oklab, var(--md-sys-color-primary) 12%, transparent);
-}
-
+/* Solid state layers: the fill is mixed with its own on-color, never dropped. */
 .capture-tabs [role="tab"]:hover {
-  color: var(--md-sys-color-on-surface);
+  background: color-mix(in oklab, var(--md-sys-color-secondary-container) calc((1 - var(--md-sys-state-hover-opacity)) * 100%), var(--md-sys-color-on-secondary-container)) !important;
 }
 
-/* Arc's foundation focus hook is !important; match its specificity to drop it. */
+.capture-tabs [role="tab"]:active {
+  background: color-mix(in oklab, var(--md-sys-color-secondary-container) calc((1 - var(--md-sys-state-pressed-opacity)) * 100%), var(--md-sys-color-on-secondary-container)) !important;
+}
+
+/* Selection reshapes only its own segment into a pill and fills it with secondary. */
+.capture-tabs [role="tab"][data-state="active"] {
+  border-radius: var(--md-sys-shape-corner-full) !important;
+  background: var(--md-sys-color-secondary) !important;
+  color: var(--md-sys-color-on-secondary) !important;
+}
+
+.capture-tabs [role="tab"][data-state="active"]:hover {
+  background: color-mix(in oklab, var(--md-sys-color-secondary) calc((1 - var(--md-sys-state-hover-opacity)) * 100%), var(--md-sys-color-on-secondary)) !important;
+}
+
+.capture-tabs [role="tab"][data-state="active"]:active {
+  background: color-mix(in oklab, var(--md-sys-color-secondary) calc((1 - var(--md-sys-state-pressed-opacity)) * 100%), var(--md-sys-color-on-secondary)) !important;
+}
+
+/* Selection is the segment fill, not an underline. */
+.capture-tabs [class*="selection"],
+.capture-tabs [role="tab"] > span[aria-hidden="true"] {
+  display: none !important;
+}
+
+/* The selected segment's fill and shape are its focus cue; unselected segments
+   get a ring in their own label color, which reads on the tonal fill. */
 .capture-tabs [role="tab"]:focus-visible {
   outline: none !important;
 }
 
-/* The selected tab is already marked by its underline, so the focus ring is
-   drawn only when keyboard focus lands on an unselected tab. */
-.capture-tabs [role="tab"]:focus-visible[data-state="inactive"] {
-  outline: 2px solid var(--md-sys-color-primary) !important;
-  outline-offset: -2px !important;
-  border-radius: var(--md-sys-shape-corner-md) !important;
-}
-
-.capture-tabs [role="tab"][data-state="active"] {
-  color: var(--md-sys-color-primary) !important;
-  font-weight: 600;
-}
-
-/* NO ROUNDED CURVED BORDER ON TABS */
-.capture-tabs [class*="selection"],
-.capture-tabs [role="tab"] > span[aria-hidden="true"] {
-  position: absolute;
-  top: auto !important;
-  bottom: 0 !important;
-  left: 18% !important;
-  right: 18% !important;
-  height: 3px !important;
-  border: none !important;
-  border-radius: 3px 3px 0 0 !important;
-  background: var(--md-sys-color-primary) !important;
-  box-shadow: none !important;
+.capture-tabs [role="tab"]:focus-visible:not([data-state="active"]) {
+  outline: 2px solid currentColor !important;
+  outline-offset: -3px !important;
 }
 
 /* Perfect Baseline Alignment for Tab Icons and Text */
@@ -463,6 +502,7 @@ a {
   justify-content: center !important;
   gap: 8px !important;
   line-height: 1 !important;
+  white-space: nowrap !important;
   vertical-align: middle !important;
 }
 
@@ -494,12 +534,14 @@ a {
 .mode-panel {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  border-radius: 28px;
 }
 
+/* Only the camera surface is a rounded card. The input panel is transparent,
+   so it must not clip at a corner radius — that cut the first glyph of labels. */
 .scan-panel {
   height: clamp(320px, 84vw, 420px);
+  overflow: hidden;
+  border-radius: 28px;
 }
 
 .mode-panel {
@@ -511,8 +553,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(120% 100% at 50% 28%, #201c27 0%, var(--scanner-surface) 74%);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, #ffffff 7%, transparent);
+  background: var(--scanner-surface);
   color: #ffffff;
 }
 
@@ -561,16 +602,12 @@ a {
   pointer-events: none;
 }
 
-.prompt-glyph {
-  color: color-mix(in oklab, var(--scanner-reticle) 88%, transparent);
-}
-
 .prompt-text {
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 14.5px;
+  font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 500;
-  line-height: 1.5;
+  line-height: var(--md-sys-typescale-label-large-line);
   letter-spacing: 0.01em;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
@@ -596,10 +633,10 @@ a {
   background: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);
   border: none;
-  font-size: 15px;
+  font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 500;
+  line-height: var(--md-sys-typescale-label-large-line);
   letter-spacing: 0.01em;
-  box-shadow: var(--md-sys-elevation-2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -615,12 +652,11 @@ a {
 }
 
 .scan-action.scan-action:hover:not(:disabled) {
-  background-color: color-mix(in oklab, var(--md-sys-color-primary) 92%, var(--md-sys-color-on-primary));
-  box-shadow: var(--md-sys-elevation-3);
+  background-color: color-mix(in oklab, var(--md-sys-color-primary) calc((1 - var(--md-sys-state-hover-opacity)) * 100%), var(--md-sys-color-on-primary));
 }
 
 .scan-action.scan-action:active:not(:disabled) {
-  background-color: color-mix(in oklab, var(--md-sys-color-primary) 88%, var(--md-sys-color-on-primary));
+  background-color: color-mix(in oklab, var(--md-sys-color-primary) calc((1 - var(--md-sys-state-pressed-opacity)) * 100%), var(--md-sys-color-on-primary));
 }
 
 .button-spinner {
@@ -637,43 +673,8 @@ a {
 .mode-panel-light {
   display: flex;
   flex-direction: column;
-  padding: 24px;
-  background: var(--md-sys-color-surface-container-low);
-}
-
-.mode-heading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.mode-icon {
-  display: grid;
-  width: 40px;
-  height: 40px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: var(--md-sys-shape-corner-full);
-  background: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-}
-
-.mode-heading h2 {
-  margin: 0;
-  color: var(--md-sys-color-on-surface);
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-}
-
-
-.mode-heading p {
-  margin: 3px 0 0;
-  color: var(--md-sys-color-on-surface-variant);
-  font-size: 13.5px;
-  line-height: 1.5;
+  padding: 4px 0 0;
+  background: transparent;
 }
 
 .lookup-form {
@@ -689,11 +690,12 @@ a {
 .lookup-form input {
   min-height: 56px;
   padding-inline: 16px;
-  border-radius: var(--md-sys-shape-corner-md);
+  border-radius: var(--md-sys-shape-corner-xs);
   border: 1px solid var(--md-sys-color-outline-variant);
   background: var(--md-sys-color-surface-container-lowest);
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line);
   letter-spacing: 0.02em;
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
@@ -711,15 +713,15 @@ a {
   border-radius: var(--md-sys-shape-corner-full);
   background: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);
-  font-size: 15px;
+  font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 500;
+  line-height: var(--md-sys-typescale-label-large-line);
   gap: 8px;
   transition: background-color 160ms ease, box-shadow 160ms ease;
 }
 
 .lookup-action.lookup-action:hover {
-  background-color: color-mix(in oklab, var(--md-sys-color-primary) 92%, var(--md-sys-color-on-primary));
-  box-shadow: var(--md-sys-elevation-1);
+  background-color: color-mix(in oklab, var(--md-sys-color-primary) calc((1 - var(--md-sys-state-hover-opacity)) * 100%), var(--md-sys-color-on-primary));
 }
 
 /* M3 Assist Chip */
@@ -733,22 +735,23 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 34px;
+  height: 32px;
   padding: 0 14px;
   border-radius: var(--md-sys-shape-corner-sm);
   background: transparent;
   border: 1px solid var(--md-sys-color-outline-variant);
   color: var(--md-sys-color-on-surface-variant);
-  font-size: 13px;
+  font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 500;
+  line-height: var(--md-sys-typescale-label-large-line);
   cursor: pointer;
   transition: background-color 150ms ease, border-color 150ms ease;
 }
 
-/* Chips draw at 34px but keep a 48dp touch target, per M3. */
+/* Chips draw at 32dp but keep a 48dp touch target, per M3. */
 .assist-chip::after {
   position: absolute;
-  inset: -7px -4px;
+  inset: -8px -4px;
   content: "";
 }
 
@@ -766,11 +769,13 @@ a {
 .subjects-details {
   margin-top: 18px;
   color: var(--md-sys-color-on-surface-variant);
-  font-size: 13.5px;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line);
 }
 
 .subjects-details summary {
   display: flex;
+  min-height: 44px;
   align-items: center;
   gap: 6px;
   cursor: pointer;
@@ -804,7 +809,8 @@ a {
   border-radius: var(--md-sys-shape-corner-sm);
   background: var(--md-sys-color-surface-container-high);
   color: var(--md-sys-color-on-surface);
-  font-size: 12px;
+  font-size: var(--md-sys-typescale-label-medium-size);
+  line-height: var(--md-sys-typescale-label-medium-line);
 }
 
 /* --------------------------------------------------------------------------
@@ -812,29 +818,12 @@ a {
    -------------------------------------------------------------------------- */
 .photo-upload {
   display: flex;
-  min-height: clamp(216px, 55vw, 280px);
+  min-height: 160px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 22px;
   padding: 24px 12px 8px;
   text-align: center;
-}
-
-.photo-intro h2 {
-  margin: 0;
-  color: var(--md-sys-color-on-surface);
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-}
-
-.photo-intro p {
-  margin: 6px 0 0;
-  color: var(--md-sys-color-on-surface-variant);
-  font-size: 13.5px;
-  line-height: 1.5;
 }
 
 .photo-action.photo-action {
@@ -845,15 +834,14 @@ a {
   border-radius: var(--md-sys-shape-corner-full);
   background: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);
-  font-size: 15px;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line);
   gap: 10px;
-  box-shadow: var(--md-sys-elevation-1);
-  transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 .photo-action.photo-action:hover:not(:disabled) {
-  background: color-mix(in oklab, var(--md-sys-color-primary) 92%, var(--md-sys-color-on-primary));
-  box-shadow: var(--md-sys-elevation-2);
+  background: color-mix(in oklab, var(--md-sys-color-primary) calc((1 - var(--md-sys-state-hover-opacity)) * 100%), var(--md-sys-color-on-primary));
 }
 
 /* Done: the same pill, in the tonal role, so the check never shifts the layout. */
@@ -916,12 +904,13 @@ a {
 .meta-line {
   display: flex;
   min-width: 0;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 6px 10px;
   margin: 0;
   color: var(--md-sys-color-on-surface-variant);
-  font-size: 13.5px;
-  line-height: 1.5;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line);
 }
 
 .meta-line > svg {
@@ -936,59 +925,37 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
-.meta-sub {
-  color: var(--text-muted);
-  font-size: 12.5px;
-}
-
-.meta-sub > svg {
-  color: var(--text-muted);
-}
-
-.meta-date {
+/* A link that reads as a button, like the rest of the controls. */
+.meta-link {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 4px;
   margin-left: auto;
-  color: var(--text-muted);
+  padding: 0 14px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-full);
+  color: var(--md-sys-color-primary);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 500;
+  line-height: var(--md-sys-typescale-label-large-line);
+  text-decoration: none;
   white-space: nowrap;
+  transition:
+    background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard),
+    transform 160ms var(--md-sys-motion-easing-emphasized-decelerate);
+}
+
+.meta-link:hover {
+  background: color-mix(in oklab, var(--md-sys-color-primary) calc(var(--md-sys-state-hover-opacity) * 100%), transparent);
+}
+
+.meta-link:active {
+  transform: scale(0.98);
 }
 
 .coverage-skeleton {
   flex: 1;
-}
-
-/* --------------------------------------------------------------------------
-   Footer
-   -------------------------------------------------------------------------- */
-.home-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding-top: 20px;
-  margin-top: auto;
-  color: var(--text-muted);
-  font-size: 12.5px;
-}
-
-.footer-left {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.footer-dot {
-  opacity: 0.5;
-}
-
-.footer-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--md-sys-color-on-surface-variant);
-  text-decoration: none;
-}
-
-.footer-link:hover {
-  color: var(--md-sys-color-primary);
 }
 
 /* --------------------------------------------------------------------------
@@ -999,14 +966,15 @@ a {
   gap: 10px;
   margin: 12px 0 0;
   padding-left: 20px;
-  font-size: 14.5px;
+  font-size: var(--md-sys-typescale-body-large-size);
   color: var(--md-sys-color-on-surface);
-  line-height: 1.5;
+  line-height: var(--md-sys-typescale-body-large-line);
 }
 
 .install-hint {
   margin: 18px 0 0;
-  font-size: 13px;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line);
   color: var(--md-sys-color-on-surface-variant);
 }
 
@@ -1024,7 +992,10 @@ a {
     margin-bottom: 22px;
   }
   .capture-tabs [role="tab"] {
-    padding: 0 8px;
+    padding: 0 14px;
+  }
+  .meta-link {
+    margin-left: 0;
   }
   .lookup-form {
     flex-direction: column;
@@ -1034,13 +1005,15 @@ a {
     width: 100%;
     justify-content: center;
   }
-  .meta-date {
-    display: none;
+}
+
+/* Below 360 px the three labels only fit without their icons. */
+@media (max-width: 359px) {
+  .capture-tabs [role="tab"] {
+    padding: 0 10px;
   }
-  .home-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+  .capture-tabs [role="tab"] [class*="triggerLabel"] svg {
+    display: none !important;
   }
 }
 

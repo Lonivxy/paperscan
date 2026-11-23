@@ -48,8 +48,8 @@ async function render() {
     errRow.append(node('span', 'INVALID BARCODE', 'eyebrow'));
     out.replaceChildren(
       errRow,
-      node('h1', '无法识别这个条码'),
-      node('p', '返回后重新扫描完整的 P 开头条码。')
+      node('h1', "Couldn't read this barcode"),
+      node('p', 'Go back and scan the full code that starts with P.')
     );
     return;
   }
@@ -66,9 +66,9 @@ async function render() {
       notFoundRow.append(node('span', 'NOT FOUND', 'eyebrow'));
       out.replaceChildren(
         notFoundRow,
-        node('h1', '暂未收录这份试卷'),
+        node('h1', 'Not in the index'),
         node('p', barcode.code, 'paper-code'),
-        node('p', '返回后可以重试，或前往 PaperLords / Pearson 目录查询。')
+        node('p', 'Go back and try again, or check PaperLords / Pearson.')
       );
       return;
     }
@@ -87,31 +87,31 @@ async function render() {
     );
 
     if (barcode.page) {
-      out.append(node('p', `第 ${barcode.page} / ${barcode.total} 页`, 'page-tracker'));
+      out.append(node('p', `Page ${barcode.page} / ${barcode.total}`, 'page-tracker'));
     }
 
     const choices = node('div', null, 'choices');
     const pageUrl = barcode.page ? `${paper.qp}#page=${barcode.page}` : paper.qp;
     choices.append(
-      resource(pageUrl, barcode.page ? `打开第 ${barcode.page} 页` : '打开试卷', barcode.page ? '对应扫描页' : 'Question paper', 'page-choice'),
-      resource(paper.qp, '打开全卷', '从第 1 页开始', 'full-choice')
+      resource(pageUrl, barcode.page ? `Open page ${barcode.page}` : 'Open paper', barcode.page ? 'Scanned page' : 'Question paper', 'page-choice'),
+      resource(paper.qp, 'Open full paper', 'From page 1', 'full-choice')
     );
 
     if (paper.ms) {
-      choices.append(resource(paper.ms, '打开 MS', 'Mark scheme', 'ms'));
+      choices.append(resource(paper.ms, 'Open mark scheme', 'Mark scheme', 'ms'));
     }
 
     out.append(
       choices,
-      node('p', `资料链接来自 ${paper.source || '公开试卷目录'}；使用浏览器返回即可回到本页。`, 'download-note')
+      node('p', `Links from ${paper.source || 'public catalogues'}. Use your browser's back button to return.`, 'download-note')
     );
   } catch {
     const loadErrRow = node('div', null, 'result-meta-header');
     loadErrRow.append(node('span', 'LOAD ERROR', 'eyebrow'));
     out.replaceChildren(
       loadErrRow,
-      node('h1', '结果载入失败'),
-      node('p', '请检查网络后返回重试。')
+      node('h1', "Couldn't load the result"),
+      node('p', 'Check your connection and go back to retry.')
     );
   }
 }
