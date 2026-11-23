@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Alert } from "@/components/arc/alert/alert";
 import { Button } from "@/components/arc/button/button";
 import { Dialog, DialogContent } from "@/components/arc/dialog/dialog";
@@ -273,6 +273,17 @@ function App() {
     }
   }
 
+  const reduced = useReducedMotion();
+  // Amicro-style entrance: rise, unblur, settle — one staggered pass on load, disabled for reduced motion.
+  const rise = (delay: number) =>
+    reduced
+      ? { initial: { opacity: 1 }, animate: { opacity: 1 } }
+      : {
+          initial: { opacity: 0, y: 14, filter: "blur(6px)" },
+          animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+          transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+        };
+
   const noticeView = notice ? (
     <motion.div
       initial={{ opacity: 0, y: -4 }}
@@ -289,9 +300,9 @@ function App() {
   return (
     <main className="app-shell">
       {/* M3 Small Top App Bar */}
-      <header className="site-header">
+      <motion.header className="site-header" {...rise(0)}>
         <a className="brand" href={siteRoot.href} aria-label="PaperScan 首页">
-          <img src={new URL("icon.svg", siteRoot).href} alt="" width="38" height="38" className="brand-icon" />
+          <img src={new URL("icon.svg", siteRoot).href} alt="" width="32" height="32" className="brand-icon" />
           <span className="brand-title">PaperScan</span>
         </a>
         <Button
@@ -301,18 +312,43 @@ function App() {
           onClick={() => setInstallOpen(true)}
         >
           <span>添加到主屏幕</span>
-          <ArrowUpRight size={16} aria-hidden="true" />
+          <ArrowUpRight size={15} aria-hidden="true" />
         </Button>
-      </header>
+      </motion.header>
 
       {/* Main Content Area */}
       <section className="home-content" aria-labelledby="hero-title">
         <div className="hero-copy">
-          <h1 id="hero-title">扫一下，打开试卷。</h1>
-          <p>对准页面底部的完整条码，快速打开真题与评分标准</p>
+          <motion.p className="hero-eyebrow" {...rise(0.02)}>
+            <span className="hero-eyebrow-dot" aria-hidden="true" />
+            Edexcel IGCSE · IAL
+          </motion.p>
+          {/* Amicro-style text reveal: each phrase rises out of a blur in turn. */}
+          <h1 id="hero-title" aria-label="扫一下，打开试卷。">
+            {["扫一下，", "打开试卷。"].map((phrase, index) => (
+              <motion.span
+                key={phrase}
+                className="hero-phrase"
+                aria-hidden="true"
+                initial={reduced ? false : { opacity: 0, y: "0.3em", filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={
+                  reduced
+                    ? { duration: 0 }
+                    : { duration: 0.65, delay: 0.06 + index * 0.09, ease: [0.16, 1, 0.3, 1] }
+                }
+              >
+                {phrase}
+              </motion.span>
+            ))}
+          </h1>
+          <motion.p className="hero-lede" {...rise(0.22)}>
+            对准页面底部的完整条码，快速打开真题与评分标准。
+          </motion.p>
         </div>
 
         {/* M3 Primary Tabs */}
+        <motion.div className="capture-section" {...rise(0.14)}>
         <Tabs
           value={mode}
           onValueChange={(value) => {
@@ -348,7 +384,7 @@ function App() {
               <div className="viewfinder-container" aria-hidden="true">
                 <svg className="scan-frame" viewBox="0 0 360 360" preserveAspectRatio="none">
                   <path
-                    d="M32 62V40H54 M328 62V40H306 M32 230V252H54 M328 230V252H306"
+                    d="M32 62V40H54 M328 62V40H306 M32 298V320H54 M328 298V320H306"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2.5"
@@ -361,7 +397,7 @@ function App() {
               {/* Viewfinder Prompt */}
               <div className="scan-prompt" aria-live="polite">
                 <div className="prompt-glyph">
-                  <Camera size={44} strokeWidth={1.5} aria-hidden="true" />
+                  <Camera size={30} strokeWidth={1.5} aria-hidden="true" />
                 </div>
                 <p className="prompt-text">
                   {cameraActive ? "将完整条码放入取景框" : "对准页面底部的完整条码"}
@@ -402,7 +438,7 @@ function App() {
             <section className="mode-panel mode-panel-light" aria-labelledby="barcode-title">
               <div className="mode-heading">
                 <div className="mode-icon">
-                  <Keyboard size={24} aria-hidden="true" />
+                  <Keyboard size={20} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 id="barcode-title">输入试卷条码</h2>
@@ -474,9 +510,9 @@ function App() {
               <div className="scan-prompt photo-prompt">
                 <div className="prompt-glyph">
                   {photoBusy ? (
-                    <LoaderCircle size={48} className="button-spinner" aria-hidden="true" />
+                    <LoaderCircle size={34} className="button-spinner" aria-hidden="true" />
                   ) : (
-                    <ImageIcon size={48} strokeWidth={1.5} aria-hidden="true" />
+                    <ImageIcon size={34} strokeWidth={1.5} aria-hidden="true" />
                   )}
                 </div>
                 <h2 id="photo-title">从照片识别</h2>
@@ -514,41 +550,36 @@ function App() {
             </section>
           </TabsContent>
         </Tabs>
+        </motion.div>
 
-        {/* Clean M3 Information Row (Divider + Metadata) */}
-        <section className="coverage-section" aria-label="试卷索引覆盖范围">
-          <div className="coverage-icon">
-            <FileText size={20} strokeWidth={1.75} aria-hidden="true" />
-          </div>
-          <div className="coverage-body">
+        {/* Quiet metadata: coverage, freshness, privacy */}
+        <motion.section className="meta-block" aria-label="试卷索引覆盖范围" {...rise(0.22)}>
+          <div className="meta-line">
+            <FileText size={16} strokeWidth={1.75} aria-hidden="true" />
             {indexState === "loading" ? (
-              <Skeleton className="coverage-skeleton" label="正在载入试卷索引" lines={2} />
+              <Skeleton className="coverage-skeleton" label="正在载入试卷索引" lines={1} />
             ) : indexState === "error" ? (
-              <p>试卷索引暂时无法载入，请联网后刷新。</p>
+              <span>试卷索引暂时无法载入，请联网后刷新。</span>
             ) : (
-              <p>
-                已收录 <strong>{papers.length.toLocaleString()}</strong> 份 IGCSE / IAL 试卷，覆盖 {subjects.length} 个科目。
-                <span className="coverage-sub">索引更新：{updated || "最新"}。</span>
-              </p>
+              <span>
+                已收录 <strong>{papers.length.toLocaleString()}</strong> 份试卷 · {subjects.length} 个科目
+              </span>
             )}
           </div>
-        </section>
-
-        {/* Subtle Privacy Note */}
-        {mode !== "camera" && (
-          <div className="privacy-note">
-            <ShieldCheck size={15} aria-hidden="true" />
-            <span>条码在本机识别，不会上传照片至服务器。</span>
+          <div className="meta-line meta-sub">
+            <ShieldCheck size={14} aria-hidden="true" />
+            <span>条码在本机识别，照片不会上传</span>
+            {updated ? <span className="meta-date">更新 {updated}</span> : null}
           </div>
-        )}
+        </motion.section>
       </section>
 
       {/* Footer */}
-      <footer className="home-footer">
+      <motion.footer className="home-footer" {...rise(0.28)}>
         <div className="footer-left">
           <span>PaperScan</span>
           <span className="footer-dot">·</span>
-          <span>Edexcel IAL Barcode Finder</span>
+          <span>Edexcel IGCSE & IAL</span>
         </div>
         <a
           href="https://www.paperlords.org/igcse"
@@ -557,9 +588,9 @@ function App() {
           className="footer-link"
         >
           <span>试卷目录：PaperLords</span>
-          <ArrowUpRight size={13} aria-hidden="true" />
+          <ArrowUpRight size={12} aria-hidden="true" />
         </a>
-      </footer>
+      </motion.footer>
 
       {/* Install Dialog */}
       <Dialog open={installOpen} onOpenChange={setInstallOpen}>
