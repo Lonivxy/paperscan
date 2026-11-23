@@ -1,4 +1,4 @@
-const CACHE = "paperscan-v10";
+const CACHE = "paperscan-v11";
 const ROOT = new URL("./", self.registration.scope);
 const asset = (path) => new URL(path, ROOT).href;
 const coreFiles = [
@@ -13,6 +13,8 @@ const coreFiles = [
   "icon-512.png",
   "icon.svg",
   "vendor/zxing.min.js",
+  "fonts/bbh-bogle-latin.woff2",
+  "fonts/firjar-latin.woff2",
 ];
 
 self.addEventListener("install", (event) => {

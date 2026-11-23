@@ -2,6 +2,22 @@
    PaperScan Result Page - Material Design 3 (M3) Canonical Baseline Purple
    ========================================================================== */
 
+@font-face {
+  font-family: "BBH Bogle";
+  src: url("./fonts/bbh-bogle-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Firjar";
+  src: url("./fonts/firjar-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light dark;
 
@@ -26,7 +42,8 @@
   --md-sys-color-outline: #79747e;
   --md-sys-color-outline-variant: #cac4d0;
 
-  --font-body: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Google Sans Text", sans-serif;
+  --font-body: "Firjar", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Google Sans Text", sans-serif;
+  --font-title: "BBH Bogle", var(--font-body);
   --font-mono: Roboto Mono, ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
@@ -98,8 +115,11 @@ header {
 }
 
 .brand {
-  font-size: 20px;
-  font-weight: 500;
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
   text-decoration: none;
   display: flex;
   gap: 10px;
@@ -119,6 +139,7 @@ header {
 }
 
 .beta {
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -153,10 +174,12 @@ header {
 }
 
 .result-page h1 {
-  font-size: clamp(26px, 4.5vw, 34px);
+  font-family: var(--font-title);
+  font-size: clamp(30px, 5.5vw, 42px);
   font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
+  letter-spacing: 0.005em;
+  line-height: 1.05;
+  text-transform: uppercase;
   margin: 12px 0 8px;
   color: var(--md-sys-color-on-surface);
 }
