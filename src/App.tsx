@@ -75,7 +75,7 @@ function App() {
   const [code, setCode] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
   const [installOpen, setInstallOpen] = useState(false);
-  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoState, setPhotoState] = useState<"idle" | "busy" | "done">("idle");
   const [copiedExample, setCopiedExample] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -141,10 +141,10 @@ function App() {
     navigator.serviceWorker?.register(new URL("sw.js", base), { scope: base.pathname }).catch(() => {});
   }, []);
 
-  const openResult = useCallback((raw: string) => {
+  const openResult = useCallback((raw: string, options?: { silent?: boolean }) => {
     const barcode = parseBarcode(raw);
     if (!barcode) {
-      setNotice({ tone: "warning", title: "请检查条码", detail: "输入完整条码，例如 P76186A0628。" });
+      setNotice({ tone: "warning", title: "请检查条码", detail: "输入完整条码，例如 P61109A。" });
       return;
     }
     if (indexState === "loading") {
@@ -165,7 +165,9 @@ function App() {
       });
       return;
     }
-    setNotice({ tone: "success", title: "条码已识别", detail: "正在打开对应试卷。" });
+    if (!options?.silent) {
+      setNotice({ tone: "success", title: "条码已识别", detail: "正在打开对应试卷。" });
+    }
     const resultUrl = new URL("result.html", window.location.href);
     resultUrl.searchParams.set("barcode", cleaned);
     const shell = document.querySelector(".app-shell");
@@ -241,7 +243,7 @@ function App() {
   }
 
   function showExample() {
-    setCode("P76186A0628");
+    setCode("P61109A");
     setCopiedExample(true);
     setNotice({ tone: "info", title: "已填入示例条码", detail: "点击查找试卷查看对应试卷。" });
     window.setTimeout(() => setCopiedExample(false), 2000);
@@ -250,25 +252,39 @@ function App() {
   async function recognizePhoto(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    setNotice({ tone: "info", title: "正在识别照片", detail: "请保持页面打开。" });
-    setPhotoBusy(true);
+    setNotice(null);
+    setPhotoState("busy");
     try {
       const reader = await loadBarcodeReader();
       const imageUrl = URL.createObjectURL(file);
       try {
         const result = await reader.decodeFromImageUrl(imageUrl);
-        openResult(result.getText());
+        const text = result.getText();
+        const barcode = parseBarcode(text);
+        const known =
+          barcode !== null &&
+          indexState === "ready" &&
+          papers.some((paper) => paper.code === barcode.code);
+        if (known) {
+          // Let the button settle on its checkmark before the result page opens.
+          setPhotoState("done");
+          await new Promise((resolve) => window.setTimeout(resolve, 650));
+        } else {
+          setPhotoState("idle");
+        }
+        // The button itself already confirms success; skip the duplicate alert.
+        openResult(text, { silent: known });
       } finally {
         URL.revokeObjectURL(imageUrl);
       }
     } catch {
+      setPhotoState("idle");
       setNotice({
         tone: "warning",
         title: "没有识别到清晰条码",
         detail: "可裁剪到条码附近，或改为手动输入。",
       });
     } finally {
-      setPhotoBusy(false);
       event.target.value = "";
     }
   }
@@ -451,7 +467,7 @@ function App() {
                   <Input
                     id="barcode-input"
                     label="试卷条码"
-                    placeholder="例如 P76186A0628"
+                    placeholder="例如 P61109A"
                     value={code}
                     onChange={(event) => setCode(event.target.value)}
                     autoCapitalize="characters"
@@ -483,7 +499,7 @@ function App() {
                   ) : (
                     <Sparkles size={14} aria-hidden="true" />
                   )}
-                  <span>试试示例 P76186A0628</span>
+                  <span>试试示例 P61109A</span>
                 </motion.button>
               </div>
 
@@ -506,17 +522,10 @@ function App() {
 
           {/* Photo Import Tab Content */}
           <TabsContent value="photo" className="capture-panel-slot">
-            <section className="scan-panel photo-panel" aria-labelledby="photo-title">
-              <div className="scan-prompt photo-prompt">
-                <div className="prompt-glyph">
-                  {photoBusy ? (
-                    <LoaderCircle size={34} className="button-spinner" aria-hidden="true" />
-                  ) : (
-                    <ImageIcon size={34} strokeWidth={1.5} aria-hidden="true" />
-                  )}
-                </div>
+            <section className="photo-upload" aria-labelledby="photo-title">
+              <div className="photo-intro">
                 <h2 id="photo-title">从照片识别</h2>
-                <p className="photo-subtitle">选择一张包含完整条码的试卷照片</p>
+                <p>选择一张包含完整条码的试卷照片</p>
               </div>
 
               <input
@@ -529,24 +538,37 @@ function App() {
                 aria-hidden="true"
               />
 
-              <motion.div
-                className="scan-action-wrapper"
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 450, damping: 30 }}
+              <Button
+                className="photo-action"
+                variant="primary"
+                size="lg"
+                loading={photoState === "busy"}
+                disabled={photoState === "done"}
+                data-photo={photoState}
+                onClick={() => photoRef.current?.click()}
               >
-                <Button
-                  className="scan-action"
-                  variant="primary"
-                  size="lg"
-                  onClick={() => photoRef.current?.click()}
-                  disabled={photoBusy}
-                >
-                  <ImageIcon size={22} aria-hidden="true" />
-                  <span>{photoBusy ? "正在识别照片…" : "选择试卷照片"}</span>
-                </Button>
-              </motion.div>
+                {photoState === "done" ? (
+                  <>
+                    <Check size={20} aria-hidden="true" />
+                    <span>已识别</span>
+                  </>
+                ) : (
+                  <>
+                    <ImageIcon size={20} aria-hidden="true" />
+                    <span>选择试卷照片</span>
+                  </>
+                )}
+              </Button>
 
-              <div className="notice-slot photo-notice">{noticeView}</div>
+              <p className="visually-hidden" aria-live="polite">
+                {photoState === "busy"
+                  ? "正在识别照片"
+                  : photoState === "done"
+                    ? "条码已识别，正在打开试卷"
+                    : ""}
+              </p>
+
+              <div className="notice-slot">{noticeView}</div>
             </section>
           </TabsContent>
         </Tabs>
