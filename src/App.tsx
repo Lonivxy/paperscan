@@ -3,12 +3,16 @@ import type { ChangeEvent, FormEvent } from "react";
 import {
   ArrowUpRight,
   Camera,
+  Check,
+  ChevronDown,
   FileText,
   Image as ImageIcon,
   Keyboard,
   LoaderCircle,
   ShieldCheck,
+  Sparkles,
 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { Alert } from "@/components/arc/alert/alert";
 import { Button } from "@/components/arc/button/button";
 import { Dialog, DialogContent } from "@/components/arc/dialog/dialog";
@@ -72,6 +76,8 @@ function App() {
   const [cameraActive, setCameraActive] = useState(false);
   const [installOpen, setInstallOpen] = useState(false);
   const [photoBusy, setPhotoBusy] = useState(false);
+  const [copiedExample, setCopiedExample] = useState(false);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const photoRef = useRef<HTMLInputElement>(null);
   const controlsRef = useRef<ScanControls | null>(null);
@@ -236,7 +242,9 @@ function App() {
 
   function showExample() {
     setCode("P76186A0628");
+    setCopiedExample(true);
     setNotice({ tone: "info", title: "已填入示例条码", detail: "点击查找试卷查看对应试卷。" });
+    window.setTimeout(() => setCopiedExample(false), 2000);
   }
 
   async function recognizePhoto(event: ChangeEvent<HTMLInputElement>) {
@@ -266,114 +274,215 @@ function App() {
   }
 
   const noticeView = notice ? (
-    <Alert tone={notice.tone} title={notice.title} open>
-      {notice.detail}
-    </Alert>
+    <motion.div
+      initial={{ opacity: 0, y: -4 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -4 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Alert tone={notice.tone} title={notice.title} open>
+        {notice.detail}
+      </Alert>
+    </motion.div>
   ) : null;
 
   return (
     <main className="app-shell">
+      {/* M3 Small Top App Bar */}
       <header className="site-header">
         <a className="brand" href={siteRoot.href} aria-label="PaperScan 首页">
-          <img src={new URL("icon.svg", siteRoot).href} alt="" width="42" height="42" />
-          <span>PaperScan</span>
+          <img src={new URL("icon.svg", siteRoot).href} alt="" width="38" height="38" className="brand-icon" />
+          <span className="brand-title">PaperScan</span>
         </a>
-        <Button className="install-action" variant="ghost" size="sm" onClick={() => setInstallOpen(true)}>
+        <Button
+          className="install-action"
+          variant="ghost"
+          size="sm"
+          onClick={() => setInstallOpen(true)}
+        >
           <span>添加到主屏幕</span>
-          <ArrowUpRight size={17} strokeWidth={1.8} aria-hidden="true" />
+          <ArrowUpRight size={16} aria-hidden="true" />
         </Button>
       </header>
 
+      {/* Main Content Area */}
       <section className="home-content" aria-labelledby="hero-title">
         <div className="hero-copy">
           <h1 id="hero-title">扫一下，打开试卷。</h1>
-          <p>对准页面底部的完整条码</p>
+          <p>对准页面底部的完整条码，快速打开真题与评分标准</p>
         </div>
 
-        <Tabs value={mode} onValueChange={(value) => { setNotice(null); setMode(value as Mode); }} className="capture-tabs">
+        {/* M3 Primary Tabs */}
+        <Tabs
+          value={mode}
+          onValueChange={(value) => {
+            setNotice(null);
+            setMode(value as Mode);
+          }}
+          className="capture-tabs"
+        >
           <TabsList aria-label="选择识别方式">
-            <TabsTrigger value="camera"><Camera size={19} strokeWidth={1.8} aria-hidden="true" /><span>相机</span></TabsTrigger>
-            <TabsTrigger value="input"><Keyboard size={19} strokeWidth={1.8} aria-hidden="true" /><span>输入条码</span></TabsTrigger>
-            <TabsTrigger value="photo"><ImageIcon size={19} strokeWidth={1.8} aria-hidden="true" /><span>从照片识别</span></TabsTrigger>
+            <TabsTrigger value="camera">
+              <Camera size={18} aria-hidden="true" />
+              <span>相机</span>
+            </TabsTrigger>
+            <TabsTrigger value="input">
+              <Keyboard size={18} aria-hidden="true" />
+              <span>输入条码</span>
+            </TabsTrigger>
+            <TabsTrigger value="photo">
+              <ImageIcon size={18} aria-hidden="true" />
+              <span>从照片识别</span>
+            </TabsTrigger>
           </TabsList>
 
+          {/* Camera Tab Content */}
           <TabsContent value="camera" className="capture-panel-slot">
-            <section className={`scan-panel${cameraActive ? " is-scanning" : ""}`} aria-label="条码扫描器">
+            <section
+              className={`scan-panel${cameraActive ? " is-scanning" : ""}`}
+              aria-label="条码扫描器"
+            >
               <video ref={videoRef} className="camera-feed" muted playsInline aria-label="相机预览" />
-              <svg className="scan-frame" viewBox="0 0 360 360" preserveAspectRatio="none" aria-hidden="true">
-                <path
-                  d="M32 62V40H54 M328 62V40H306 M32 230V252H54 M328 230V252H306"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <div className="scan-prompt" aria-live="polite">
-                <Camera size={52} strokeWidth={1.6} aria-hidden="true" />
-                <p>{cameraActive ? "将完整条码放入取景框" : "对准页面底部的完整条码"}</p>
+
+              {/* M3 Clean Viewfinder Reticle */}
+              <div className="viewfinder-container" aria-hidden="true">
+                <svg className="scan-frame" viewBox="0 0 360 360" preserveAspectRatio="none">
+                  <path
+                    d="M32 62V40H54 M328 62V40H306 M32 230V252H54 M328 230V252H306"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
-              <Button
-                className="scan-action"
-                variant="primary"
-                size="lg"
-                onClick={cameraActive ? stopScan : startScan}
+
+              {/* Viewfinder Prompt */}
+              <div className="scan-prompt" aria-live="polite">
+                <div className="prompt-glyph">
+                  <Camera size={44} strokeWidth={1.5} aria-hidden="true" />
+                </div>
+                <p className="prompt-text">
+                  {cameraActive ? "将完整条码放入取景框" : "对准页面底部的完整条码"}
+                </p>
+              </div>
+
+              {/* M3 Extended Floating Action Button (FAB) */}
+              <motion.div
+                className="scan-action-wrapper"
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 450, damping: 30 }}
               >
-                {cameraActive
-                  ? <><LoaderCircle size={23} className="button-spinner" aria-hidden="true" />停止扫描</>
-                  : <><Camera size={25} strokeWidth={1.9} aria-hidden="true" />开启相机扫描</>}
-              </Button>
+                <Button
+                  className="scan-action"
+                  variant="primary"
+                  size="lg"
+                  onClick={cameraActive ? stopScan : startScan}
+                >
+                  {cameraActive ? (
+                    <>
+                      <LoaderCircle size={22} className="button-spinner" aria-hidden="true" />
+                      <span>停止扫描</span>
+                    </>
+                  ) : (
+                    <>
+                      <Camera size={22} aria-hidden="true" />
+                      <span>开启相机扫描</span>
+                    </>
+                  )}
+                </Button>
+              </motion.div>
             </section>
             <div className="notice-slot">{noticeView}</div>
           </TabsContent>
 
+          {/* Manual Input Tab Content */}
           <TabsContent value="input" className="capture-panel-slot">
             <section className="mode-panel mode-panel-light" aria-labelledby="barcode-title">
               <div className="mode-heading">
-                <span className="mode-icon"><Keyboard size={25} strokeWidth={1.8} aria-hidden="true" /></span>
+                <div className="mode-icon">
+                  <Keyboard size={24} aria-hidden="true" />
+                </div>
                 <div>
                   <h2 id="barcode-title">输入试卷条码</h2>
-                  <p>完整条码通常以 P 开头。</p>
+                  <p>完整条码通常以 P 开头，位于试卷每页最底端。</p>
                 </div>
               </div>
+
               <form className="lookup-form" onSubmit={submitBarcode}>
-                <Input
-                  id="barcode-input"
-                  label="试卷条码"
-                  placeholder="例如 P76186A0628"
-                  value={code}
-                  onChange={(event) => setCode(event.target.value)}
-                  autoCapitalize="characters"
-                  autoComplete="off"
-                  spellCheck={false}
-                  maxLength={30}
-                  required
-                />
-                <Button className="lookup-action" variant="primary" type="submit">
-                  查找试卷 <ArrowUpRight size={17} aria-hidden="true" />
-                </Button>
+                <div className="input-field-wrapper">
+                  <Input
+                    id="barcode-input"
+                    label="试卷条码"
+                    placeholder="例如 P76186A0628"
+                    value={code}
+                    onChange={(event) => setCode(event.target.value)}
+                    autoCapitalize="characters"
+                    autoComplete="off"
+                    spellCheck={false}
+                    maxLength={30}
+                    required
+                  />
+                </div>
+                <motion.div whileTap={{ scale: 0.98 }}>
+                  <Button className="lookup-action" variant="primary" type="submit">
+                    <span>查找试卷</span>
+                    <ArrowUpRight size={17} aria-hidden="true" />
+                  </Button>
+                </motion.div>
               </form>
-              <Button className="example-action" variant="ghost" size="sm" onClick={showExample}>
-                试试示例 P76186A0628
-              </Button>
+
+              {/* M3 Assist Chip */}
+              <div className="chips-row">
+                <motion.button
+                  type="button"
+                  className="assist-chip"
+                  onClick={showExample}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                >
+                  {copiedExample ? (
+                    <Check size={14} className="chip-icon-active" aria-hidden="true" />
+                  ) : (
+                    <Sparkles size={14} aria-hidden="true" />
+                  )}
+                  <span>试试示例 P76186A0628</span>
+                </motion.button>
+              </div>
+
+              {/* Clean M3 Subjects Details */}
               <details className="subjects-details">
-                <summary>查看支持的科目</summary>
-                <p>{subjects.join("、")}</p>
+                <summary>
+                  <span>查看支持的科目 ({subjects.length})</span>
+                  <ChevronDown size={15} className="details-chevron" aria-hidden="true" />
+                </summary>
+                <div className="subjects-list">
+                  {subjects.map((s) => (
+                    <span key={s} className="subject-chip">{s}</span>
+                  ))}
+                </div>
               </details>
+
               <div className="notice-slot">{noticeView}</div>
             </section>
           </TabsContent>
 
+          {/* Photo Import Tab Content */}
           <TabsContent value="photo" className="capture-panel-slot">
             <section className="scan-panel photo-panel" aria-labelledby="photo-title">
               <div className="scan-prompt photo-prompt">
-                {photoBusy
-                  ? <LoaderCircle size={58} className="button-spinner" aria-hidden="true" />
-                  : <ImageIcon size={58} strokeWidth={1.6} aria-hidden="true" />}
+                <div className="prompt-glyph">
+                  {photoBusy ? (
+                    <LoaderCircle size={48} className="button-spinner" aria-hidden="true" />
+                  ) : (
+                    <ImageIcon size={48} strokeWidth={1.5} aria-hidden="true" />
+                  )}
+                </div>
                 <h2 id="photo-title">从照片识别</h2>
-                <p>选择一张包含完整条码的试卷照片</p>
+                <p className="photo-subtitle">选择一张包含完整条码的试卷照片</p>
               </div>
+
               <input
                 ref={photoRef}
                 className="visually-hidden"
@@ -383,47 +492,84 @@ function App() {
                 tabIndex={-1}
                 aria-hidden="true"
               />
-              <Button className="scan-action" variant="primary" size="lg" onClick={() => photoRef.current?.click()} disabled={photoBusy}>
-                <ImageIcon size={24} strokeWidth={1.9} aria-hidden="true" />
-                {photoBusy ? "正在识别照片" : "选择试卷照片"}
-              </Button>
+
+              <motion.div
+                className="scan-action-wrapper"
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 450, damping: 30 }}
+              >
+                <Button
+                  className="scan-action"
+                  variant="primary"
+                  size="lg"
+                  onClick={() => photoRef.current?.click()}
+                  disabled={photoBusy}
+                >
+                  <ImageIcon size={22} aria-hidden="true" />
+                  <span>{photoBusy ? "正在识别照片…" : "选择试卷照片"}</span>
+                </Button>
+              </motion.div>
+
               <div className="notice-slot photo-notice">{noticeView}</div>
             </section>
           </TabsContent>
         </Tabs>
 
-        <section className="coverage" aria-label="试卷索引覆盖范围">
-          <div className="coverage-icon"><FileText size={25} strokeWidth={1.65} aria-hidden="true" /></div>
-          {indexState === "loading" ? (
-            <Skeleton className="coverage-skeleton" label="正在载入试卷索引" lines={2} />
-          ) : indexState === "error" ? (
-            <p>试卷索引暂时无法载入，请联网后刷新。</p>
-          ) : (
-            <p>
-              已收录 {papers.length} 份 IGCSE / IAL 试卷，覆盖 {subjects.length} 个科目。
-              <span>索引更新：{updated}。</span>
-            </p>
-          )}
+        {/* Clean M3 Information Row (Divider + Metadata) */}
+        <section className="coverage-section" aria-label="试卷索引覆盖范围">
+          <div className="coverage-icon">
+            <FileText size={20} strokeWidth={1.75} aria-hidden="true" />
+          </div>
+          <div className="coverage-body">
+            {indexState === "loading" ? (
+              <Skeleton className="coverage-skeleton" label="正在载入试卷索引" lines={2} />
+            ) : indexState === "error" ? (
+              <p>试卷索引暂时无法载入，请联网后刷新。</p>
+            ) : (
+              <p>
+                已收录 <strong>{papers.length.toLocaleString()}</strong> 份 IGCSE / IAL 试卷，覆盖 {subjects.length} 个科目。
+                <span className="coverage-sub">索引更新：{updated || "最新"}。</span>
+              </p>
+            )}
+          </div>
         </section>
 
-        {mode !== "camera" && <div className="privacy-note"><ShieldCheck size={15} aria-hidden="true" />条码在本机识别，不会上传照片。</div>}
+        {/* Subtle Privacy Note */}
+        {mode !== "camera" && (
+          <div className="privacy-note">
+            <ShieldCheck size={15} aria-hidden="true" />
+            <span>条码在本机识别，不会上传照片至服务器。</span>
+          </div>
+        )}
       </section>
 
+      {/* Footer */}
       <footer className="home-footer">
-        <span>PaperScan</span>
-        <a href="https://www.paperlords.org/igcse" target="_blank" rel="noopener noreferrer">
-          试卷目录：PaperLords <ArrowUpRight size={13} aria-hidden="true" />
+        <div className="footer-left">
+          <span>PaperScan</span>
+          <span className="footer-dot">·</span>
+          <span>Edexcel IAL Barcode Finder</span>
+        </div>
+        <a
+          href="https://www.paperlords.org/igcse"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="footer-link"
+        >
+          <span>试卷目录：PaperLords</span>
+          <ArrowUpRight size={13} aria-hidden="true" />
         </a>
       </footer>
 
+      {/* Install Dialog */}
       <Dialog open={installOpen} onOpenChange={setInstallOpen}>
-        <DialogContent title="放到你的主屏幕" description="下次从主屏幕就能快速打开 PaperScan。">
+        <DialogContent title="添加到主屏幕" description="下次从主屏幕即可快速打开 PaperScan 查题。">
           <ol className="install-steps">
-            <li>在浏览器菜单中打开「分享」。</li>
-            <li>选择「添加到主屏幕」。</li>
+            <li>在浏览器工具栏中打开「分享」菜单。</li>
+            <li>在选项中选择「添加到主屏幕」。</li>
             <li>点击「添加」完成安装。</li>
           </ol>
-          <p className="install-hint">菜单名称会因浏览器不同而略有差异。</p>
+          <p className="install-hint">菜单名称可能因浏览器与操作系统略有差异。</p>
         </DialogContent>
       </Dialog>
     </main>
