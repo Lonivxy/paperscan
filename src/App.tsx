@@ -15,7 +15,7 @@ import {
   Vibrate,
   Volume2,
 } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { animate, motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Alert } from "@/components/arc/alert/alert";
 import { Button } from "@/components/arc/button/button";
 import { Dialog, DialogContent } from "@/components/arc/dialog/dialog";
@@ -60,6 +60,25 @@ declare global {
 }
 
 const siteRoot = new URL(import.meta.env.BASE_URL, window.location.href);
+
+/** Rolling numeral: new index counts settle up into place (Amicro-style reveal). */
+function CountUp({ value }: { value: number }) {
+  const reduced = useReducedMotion();
+  const [display, setDisplay] = useState(reduced ? value : 0);
+  useEffect(() => {
+    if (reduced) {
+      setDisplay(value);
+      return;
+    }
+    const controls = animate(0, value, {
+      duration: 0.9,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (current) => setDisplay(Math.round(current)),
+    });
+    return () => controls.stop();
+  }, [value, reduced]);
+  return <>{display.toLocaleString()}</>;
+}
 
 async function loadBarcodeReader() {
   if (!window.ZXingBrowser) {
@@ -467,10 +486,10 @@ function App() {
 
   const noticeView = notice ? (
     <motion.div
-      initial={{ opacity: 0, y: -4 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -4 }}
-      transition={{ duration: 0.2 }}
+      initial={reduced ? false : { opacity: 0, y: -6, filter: "blur(4px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      exit={reduced ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: -4, filter: "blur(2px)", transition: { duration: 0.14 } }}
+      transition={reduced ? { duration: 0 } : { type: "spring", visualDuration: 0.35, bounce: 0 }}
     >
       <Alert tone={notice.tone} title={notice.title} open>
         <div className="notice-copy">
@@ -484,6 +503,19 @@ function App() {
       </Alert>
     </motion.div>
   ) : null;
+
+  const viewMotion = reduced
+    ? {
+        initial: false as const,
+        animate: { opacity: 1 },
+        exit: { opacity: 0, transition: { duration: 0 } },
+      }
+    : {
+        initial: { opacity: 0, y: 16, filter: "blur(6px)" },
+        animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+        exit: { opacity: 0, y: -8, filter: "blur(4px)", transition: { duration: 0.16 } },
+        transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+      };
 
   return (
     <main className={`app-shell${view === "library" ? " app-shell-library" : ""}`}>
@@ -522,19 +554,22 @@ function App() {
         className={`home-content${view === "library" ? " library-content" : ""}`}
         aria-labelledby={view === "library" ? "library-title" : "hero-title"}
       >
+        <AnimatePresence mode="popLayout" initial={false}>
         {view === "library" ? (
-          <PaperLibrary
-            papers={papers}
-            saved={savedState}
-            indexState={indexState}
-            storageWarning={storageWarning}
-            onBack={returnToScanner}
-            onOpenBarcode={(barcode) => openResult(barcode, { record: false })}
-            onToggleFavorite={toggleFavorite}
-            onClearHistory={() => setClearHistoryOpen(true)}
-          />
+          <motion.div key="library" className="view-shell" {...viewMotion}>
+            <PaperLibrary
+              papers={papers}
+              saved={savedState}
+              indexState={indexState}
+              storageWarning={storageWarning}
+              onBack={returnToScanner}
+              onOpenBarcode={(barcode) => openResult(barcode, { record: false })}
+              onToggleFavorite={toggleFavorite}
+              onClearHistory={() => setClearHistoryOpen(true)}
+            />
+          </motion.div>
         ) : (
-        <>
+        <motion.div key="scan" className="view-shell" {...viewMotion}>
         <div className="hero-copy">
           {/* Amicro-style text reveal: each phrase rises out of a blur in turn. */}
           <h1 id="hero-title" aria-label="Scan. Open. Done.">
@@ -629,6 +664,9 @@ function App() {
                   />
                 </svg>
               </div>
+
+              {/* A single light sweep while the camera is live. */}
+              {cameraActive ? <div className="scan-line" aria-hidden="true" /> : null}
 
               {/* One instruction, only while the camera is live. */}
               {cameraActive ? (
@@ -783,7 +821,7 @@ function App() {
               <span>The paper index can&apos;t load. Refresh when online.</span>
             ) : (
               <span>
-                <strong>{papers.length.toLocaleString()}</strong> IGCSE / IAL papers · {subjects.length} subjects
+                <strong><CountUp value={papers.length} /></strong> IGCSE / IAL papers · {subjects.length} subjects
               </span>
             )}
             <a
@@ -797,8 +835,9 @@ function App() {
             </a>
           </div>
         </motion.section>
-        </>
+        </motion.div>
         )}
+        </AnimatePresence>
       </section>
 
       {/* Install Dialog */}

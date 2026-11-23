@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { ArrowUpRight, BookOpen, Clock3, Star, Trash2 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/arc/button/button";
 import { Input } from "@/components/arc/input/input";
 import type { Paper } from "@/lib/papers";
@@ -51,6 +52,7 @@ export function PaperLibrary({
   onToggleFavorite,
   onClearHistory,
 }: PaperLibraryProps) {
+  const reduced = useReducedMotion();
   const [tab, setTab] = useState<LibraryTab>("all");
   const [query, setQuery] = useState("");
   const [qualification, setQualification] = useState("all");
@@ -197,12 +199,22 @@ export function PaperLibrary({
             </div>
           ) : (
             <div className="library-list">
-              {visibleItems.map((item) => {
+              {visibleItems.map((item, index) => {
                 const paper = item.paper;
                 const favorite = saved.favorites.includes(item.code);
                 const scanBarcode = item.barcode ?? item.code;
                 return (
-                  <article className="library-card" key={`${item.code}:${item.barcode ?? tab}`}>
+                  <motion.article
+                    className="library-card"
+                    key={`${item.code}:${item.barcode ?? tab}`}
+                    initial={reduced ? false : { opacity: 0, y: 14, filter: "blur(4px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    transition={{
+                      duration: 0.45,
+                      delay: reduced ? 0 : Math.min(index, 10) * 0.025,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
                     <div className="library-card-copy">
                       <p className="library-card-eyebrow">{paper ? `${paper.qualification} · ${paper.subject}` : "Scan not in the index"}</p>
                       <h2>
@@ -235,7 +247,15 @@ export function PaperLibrary({
                         aria-pressed={favorite}
                         onClick={() => onToggleFavorite(item.code)}
                       >
-                        <Star size={17} fill={favorite ? "currentColor" : "none"} aria-hidden="true" />
+                        <motion.span
+                          key={String(favorite)}
+                          style={{ display: "inline-flex" }}
+                          initial={reduced ? false : { scale: 0.6, rotate: -14 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 520, damping: 20 }}
+                        >
+                          <Star size={17} fill={favorite ? "currentColor" : "none"} aria-hidden="true" />
+                        </motion.span>
                       </Button>
                       {paper?.qp ? (
                         <a className="library-document-action" href={paper.qp} target="_blank" rel="noopener noreferrer">
@@ -254,7 +274,7 @@ export function PaperLibrary({
                         </Button>
                       )}
                     </div>
-                  </article>
+                  </motion.article>
                 );
               })}
             </div>

@@ -485,25 +485,27 @@ a {
   background: color-mix(in oklab, var(--md-sys-color-secondary-container) calc((1 - var(--md-sys-state-pressed-opacity)) * 100%), var(--md-sys-color-on-secondary-container)) !important;
 }
 
-/* Selection reshapes only its own segment into a pill and fills it with secondary. */
+/* The active label sits over the Arc selection pill. */
 .capture-tabs [role="tab"][data-state="active"] {
-  border-radius: var(--md-sys-shape-corner-full) !important;
-  background: var(--md-sys-color-secondary) !important;
   color: var(--md-sys-color-on-secondary) !important;
 }
 
-.capture-tabs [role="tab"][data-state="active"]:hover {
-  background: color-mix(in oklab, var(--md-sys-color-secondary) calc((1 - var(--md-sys-state-hover-opacity)) * 100%), var(--md-sys-color-on-secondary)) !important;
-}
-
+.capture-tabs [role="tab"][data-state="active"]:hover,
 .capture-tabs [role="tab"][data-state="active"]:active {
-  background: color-mix(in oklab, var(--md-sys-color-secondary) calc((1 - var(--md-sys-state-pressed-opacity)) * 100%), var(--md-sys-color-on-secondary)) !important;
+  color: var(--md-sys-color-on-secondary) !important;
 }
 
-/* Selection is the segment fill, not an underline. */
-.capture-tabs [class*="selection"],
-.capture-tabs [role="tab"] > span[aria-hidden="true"] {
-  display: none !important;
+/* Arc layoutId selection: one solid pill glides between the segments. */
+.capture-tabs [class*="selection"] {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: auto;
+  height: auto;
+  border-radius: var(--md-sys-shape-corner-full) !important;
+  background: var(--md-sys-color-secondary) !important;
+  box-shadow: none !important;
+  pointer-events: none;
 }
 
 /* The selected segment's fill and shape are its focus cue; unselected segments
@@ -545,7 +547,8 @@ a {
 }
 
 .capture-section,
-.capture-panel-slot {
+.capture-panel-slot,
+.view-shell {
   width: 100%;
 }
 
@@ -609,6 +612,43 @@ a {
   filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.35));
 }
 
+.scan-panel.is-scanning .scan-frame {
+  animation: reticle-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes reticle-breathe {
+  0%, 100% { opacity: 0.62; }
+  50% { opacity: 1; }
+}
+
+/* One light sweep across the viewfinder while the camera is live. */
+.scan-line {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 18%;
+  left: 18%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--scanner-reticle), transparent);
+  box-shadow: 0 0 18px color-mix(in oklab, var(--scanner-reticle) 55%, transparent);
+  animation: scan-sweep 2.6s var(--md-sys-motion-easing-emphasized) infinite;
+  pointer-events: none;
+}
+
+@keyframes scan-sweep {
+  0% { opacity: 0; transform: translateY(-92px); }
+  16% { opacity: 1; }
+  84% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(92px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-line {
+    display: none;
+  }
+}
+
 .scan-prompt {
   position: absolute;
   z-index: 2;
@@ -669,7 +709,7 @@ a {
 
 @media (hover: hover) and (pointer: fine) {
   .scan-action.scan-action:hover:not(:disabled) {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
   }
 }
 
@@ -1128,6 +1168,16 @@ a {
   color: var(--md-sys-color-on-secondary);
 }
 
+.library-tabs button:active {
+  transform: scale(0.97);
+}
+
+.library-tabs button {
+  transition:
+    background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard),
+    transform 160ms var(--md-sys-motion-easing-emphasized-decelerate);
+}
+
 .library-tabs button span {
   display: inline-grid;
   min-width: 20px;
@@ -1203,6 +1253,15 @@ a {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .library-card {
+    transition: background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+  }
+  .library-card:hover {
+    background: var(--md-sys-color-surface-container);
+  }
 }
 
 .library-card {
