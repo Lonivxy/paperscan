@@ -4,8 +4,8 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { createContext, useCallback, useContext, useId, useLayoutEffect, useRef, useState } from "react";
 import type { ComponentPropsWithoutRef, RefObject } from "react";
 import { ChevronLeft as NavArrowLeft, ChevronRight as NavArrowRight } from "lucide-react";
-import { AnimatePresence, LayoutGroup, animate, motion, useReducedMotion } from "motion/react";
-import type { AnimationPlaybackControls, Variants } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
+import type { Variants } from "motion/react";
 import { motionTokens } from "../lib/motion-tokens";
 import styles from "./tabs.module.css";
 
@@ -117,18 +117,15 @@ export function TabsContent({ className, value, forceMount, children, ...props }
     // Outgoing: the tab root may have changed size around it, so pin the panel to where it was while it fades.
     if (!selected) { const before = leavingRectRef.current; const now = node.getBoundingClientRect(); if (before) node.style.translate = `${before.left - now.left}px ${before.top - now.top}px`; node.inert = true; return; }
     node.style.translate = ""; node.inert = false;
-    const from = panelHeightRef.current;
-    const to = node.offsetHeight;
-    let controls: AnimationPlaybackControls | undefined;
-    const release = () => { node.style.height = ""; node.style.overflow = ""; };
-    if (from !== null && Math.abs(from - to) > 1 && !reduced) {
-      if (to > from) node.style.overflow = "clip";
-      controls = animate(node, { height: [from, to] }, { ...motionTokens.spring.smooth, onComplete: release });
-    }
-    panelHeightRef.current = controls && from !== null ? from : to;
+    // Size to content. Pinning a measured height can outlive the morph when the
+    // panel's content changes (a notice appears, <details> opens) and then the
+    // overflow paints over the page below.
+    node.style.height = "";
+    node.style.overflow = "";
+    panelHeightRef.current = node.offsetHeight;
     const observer = new ResizeObserver(() => { panelHeightRef.current = node.offsetHeight; });
     observer.observe(node);
-    return () => { observer.disconnect(); controls?.stop(); release(); };
+    return () => observer.disconnect();
   }, [selected, reduced, forceMount, panelHeightRef, leavingRectRef]);
   if (forceMount) return <TabsPrimitive.Content {...props} value={value} forceMount className={classes}>{children}</TabsPrimitive.Content>;
   return <AnimatePresence initial={false} mode="popLayout" custom={direction}>
