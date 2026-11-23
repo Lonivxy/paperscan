@@ -2,19 +2,25 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChangeEvent, FormEvent, SyntheticEvent } from "react";
 import {
   ArrowUpRight,
+  BookOpen,
   Camera,
   Check,
   ChevronDown,
   FileText,
+  Flashlight,
   Image as ImageIcon,
   Keyboard,
   LoaderCircle,
+  Settings2,
+  Vibrate,
+  Volume2,
 } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Alert } from "@/components/arc/alert/alert";
 import { Button } from "@/components/arc/button/button";
 import { Dialog, DialogContent } from "@/components/arc/dialog/dialog";
 import { Input } from "@/components/arc/input/input";
+import { PaperLibrary } from "@/components/paper-library";
 import { Skeleton } from "@/components/arc/skeleton/skeleton";
 import {
   Tabs,
@@ -23,11 +29,17 @@ import {
   TabsTrigger,
 } from "@/components/arc/tabs/tabs";
 import { normalizeBarcode, parseBarcode } from "@/lib/barcode.js";
+import type { PaperIndex } from "@/lib/papers";
+import type { PaperScanState, PaperScanWrite } from "@/lib/paper-store.types";
 
 type Mode = "camera" | "input" | "photo";
-type Notice = { tone: "info" | "success" | "warning" | "danger"; title: string; detail?: string };
-type Paper = { code: string };
-type PaperIndex = { papers: Paper[]; subjects: string[]; updated: string };
+type AppView = "scan" | "library";
+type Notice = {
+  tone: "info" | "success" | "warning" | "danger";
+  title: string;
+  detail?: string;
+  action?: { label: string; onClick: () => void };
+};
 type ScanResult = { getText: () => string };
 type ScanControls = { stop: () => void };
 type BarcodeReader = {
@@ -64,14 +76,21 @@ async function loadBarcodeReader() {
 }
 
 function App() {
+  const [view, setView] = useState<AppView>("scan");
   const [mode, setMode] = useState<Mode>("camera");
-  const [papers, setPapers] = useState<Paper[]>([]);
+  const [papers, setPapers] = useState<PaperIndex["papers"]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
   const [indexState, setIndexState] = useState<"loading" | "ready" | "error">("loading");
   const [notice, setNotice] = useState<Notice | null>(null);
   const [code, setCode] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
   const [installOpen, setInstallOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [clearHistoryOpen, setClearHistoryOpen] = useState(false);
+  const [savedState, setSavedState] = useState<PaperScanState>(() => window.PaperScanStore.get());
+  const [storageWarning, setStorageWarning] = useState(false);
+  const [torchSupported, setTorchSupported] = useState(false);
+  const [torchOn, setTorchOn] = useState(false);
   const [photoState, setPhotoState] = useState<"idle" | "busy" | "done">("idle");
   const [copiedExample, setCopiedExample] = useState(false);
 
@@ -79,6 +98,60 @@ function App() {
   const photoRef = useRef<HTMLInputElement>(null);
   const controlsRef = useRef<ScanControls | null>(null);
   const scanSessionRef = useRef(0);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const startScanRef = useRef<() => void>(() => {});
+
+  const applyStoreWrite = useCallback((write: PaperScanWrite) => {
+    setSavedState(write.state);
+    setStorageWarning(!write.persisted);
+  }, []);
+
+  const ensureAudioContext = useCallback(() => {
+    try {
+      const Context = window.AudioContext;
+      if (!Context) return null;
+      const context = audioContextRef.current ?? new Context();
+      audioContextRef.current = context;
+      if (context.state === "suspended") void context.resume();
+      return context;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const playScanFeedback = useCallback(() => {
+    const { sound, vibration } = window.PaperScanStore.get().feedback;
+    if (vibration) navigator.vibrate?.([45, 45, 80]);
+    if (!sound) return;
+    // The context is created/resumed in the tap handler; creating it here, in
+    // the async decode callback, leaves iOS Safari with a suspended context.
+    const context = audioContextRef.current;
+    if (!context || context.state !== "running") return;
+    try {
+      const start = context.currentTime;
+      for (const [frequency, offset] of [[880, 0], [1174, 0.09]] as const) {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(frequency, start + offset);
+        gain.gain.setValueAtTime(0.0001, start + offset);
+        gain.gain.exponentialRampToValueAtTime(0.11, start + offset + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + offset + 0.12);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(start + offset);
+        oscillator.stop(start + offset + 0.13);
+      }
+    } catch {
+      // Sound is optional; a restricted browser should not block lookup.
+    }
+  }, []);
+
+  const focusManualEntry = useCallback(() => {
+    setView("scan");
+    setMode("input");
+    window.setTimeout(() => document.getElementById("barcode-input")?.focus(), 0);
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -107,11 +180,31 @@ function App() {
     if (stream instanceof MediaStream) stream.getTracks().forEach((track) => track.stop());
     if (videoRef.current) videoRef.current.srcObject = null;
     setCameraActive(false);
+    setTorchSupported(false);
+    setTorchOn(false);
   }, []);
 
   useEffect(() => {
     if (mode !== "camera") stopScan();
   }, [mode, stopScan]);
+
+  useEffect(() => {
+    const refreshSavedState = () => setSavedState(window.PaperScanStore.get());
+    window.addEventListener("pageshow", refreshSavedState);
+    window.addEventListener("storage", refreshSavedState);
+    return () => {
+      window.removeEventListener("pageshow", refreshSavedState);
+      window.removeEventListener("storage", refreshSavedState);
+      void audioContextRef.current?.close();
+      audioContextRef.current = null;
+    };
+  }, []);
+
+  // Keep the mount-time auto-scan wired to the latest openResult closure, so a
+  // valid scan after the index loads is not treated as "index still loading".
+  useEffect(() => {
+    startScanRef.current = startScan;
+  });
 
   useEffect(() => {
     const onPageHide = () => stopScan();
@@ -122,7 +215,7 @@ function App() {
     document.addEventListener("visibilitychange", onVisibility);
     let autoScanTimer: number | undefined;
     if (new URLSearchParams(window.location.search).get("scan") === "1") {
-      autoScanTimer = window.setTimeout(() => startScan(), 100);
+      autoScanTimer = window.setTimeout(() => startScanRef.current(), 100);
     }
     return () => {
       if (autoScanTimer !== undefined) window.clearTimeout(autoScanTimer);
@@ -137,12 +230,26 @@ function App() {
     navigator.serviceWorker?.register(new URL("sw.js", base), { scope: base.pathname }).catch(() => {});
   }, []);
 
-  const openResult = useCallback((raw: string, options?: { silent?: boolean }) => {
+  const openResult = useCallback((raw: string, options?: { record?: boolean; feedback?: boolean; silent?: boolean }) => {
     const barcode = parseBarcode(raw);
+    const cleaned = (normalizeBarcode(raw) ?? "").slice(0, 30);
+    setCode(cleaned);
+    setView("scan");
     if (!barcode) {
-      setNotice({ tone: "warning", title: "Check the code", detail: "Enter the full code, e.g. P61109A." });
+      setMode("input");
+      setNotice({
+        tone: "warning",
+        title: "Check the code",
+        detail: cleaned ? `Kept “${cleaned}” in the field. Edit it and try again.` : "Enter the full code, e.g. P61109A.",
+        action: { label: "Edit code", onClick: focusManualEntry },
+      });
       return;
     }
+    // Opening a paper from the library is browsing, not a scan.
+    if (options?.record !== false) {
+      applyStoreWrite(window.PaperScanStore.recordScan(cleaned, barcode));
+    }
+    if (options?.feedback) playScanFeedback();
     if (indexState === "loading") {
       setNotice({ tone: "info", title: "Loading the paper index", detail: "Try again in a moment." });
       return;
@@ -151,13 +258,13 @@ function App() {
       setNotice({ tone: "danger", title: "Paper index unavailable", detail: "Connect to the internet and refresh." });
       return;
     }
-    const cleaned = String(raw).toUpperCase().replace(/[\s*]/g, "");
-    setCode(cleaned);
     if (!papers.some((paper) => paper.code === barcode.code)) {
+      setMode("input");
       setNotice({
         tone: "info",
         title: `Not in the index: ${barcode.code}`,
-        detail: "Look it up on PaperLords or Pearson.",
+        detail: "Kept the code. Edit it and retry, or find the paper in the library.",
+        action: { label: "Edit code", onClick: focusManualEntry },
       });
       return;
     }
@@ -173,10 +280,13 @@ function App() {
     }
     shell.classList.add("page-leaving");
     window.setTimeout(() => window.location.assign(resultUrl.href), 220);
-  }, [indexState, papers]);
+  }, [applyStoreWrite, focusManualEntry, indexState, papers, playScanFeedback]);
 
   async function startScan() {
     stopScan();
+    // Unlock audio inside the tap that starts the camera; iOS Safari keeps a
+    // context created later, in the decode callback, suspended.
+    ensureAudioContext();
     const session = scanSessionRef.current;
     setMode("camera");
     setNotice({ tone: "info", title: "Starting the camera", detail: "Allow PaperScan to use the camera." });
@@ -204,12 +314,16 @@ function App() {
           if (normalizeBarcode(text)) {
             callbackControls?.stop();
             stopScan();
-            openResult(text);
+            openResult(text, { feedback: true });
           } else {
+            const readText = (normalizeBarcode(text) ?? "").slice(0, 30);
             setNotice({
               tone: "warning",
               title: "That's a different barcode",
-              detail: "Point at a paper code that starts with P.",
+              detail: readText ? `Read “${readText}”. Point at a paper code that starts with P.` : "Point at a paper code that starts with P.",
+              action: readText
+                ? { label: "Edit code", onClick: () => { setCode(readText); focusManualEntry(); } }
+                : undefined,
             });
           }
         },
@@ -219,6 +333,10 @@ function App() {
         return;
       }
       controlsRef.current = controls;
+      const stream = videoRef.current?.srcObject;
+      const track = stream instanceof MediaStream ? stream.getVideoTracks()[0] : undefined;
+      const capabilities = track?.getCapabilities?.() as (MediaTrackCapabilities & { torch?: boolean }) | undefined;
+      setTorchSupported(capabilities?.torch === true);
       setNotice({ tone: "info", title: "Scanning", detail: "Center the full barcode from the bottom of the page." });
     } catch (error) {
       stopScan();
@@ -229,8 +347,48 @@ function App() {
         detail: name === "NotAllowedError"
           ? "Allow the camera in browser settings, or use Code or Photo."
           : "Use Code or Photo instead. The camera needs HTTPS.",
+        action: { label: "Enter code", onClick: focusManualEntry },
       });
     }
+  }
+
+  async function toggleTorch() {
+    const stream = videoRef.current?.srcObject;
+    const track = stream instanceof MediaStream ? stream.getVideoTracks()[0] : undefined;
+    if (!track || !torchSupported) return;
+    const next = !torchOn;
+    try {
+      await track.applyConstraints({ advanced: [{ torch: next } as unknown as MediaTrackConstraintSet] });
+      setTorchOn(next);
+    } catch {
+      setNotice({ tone: "warning", title: "Torch unavailable", detail: "This browser or camera can't switch the light." });
+    }
+  }
+
+  function openLibrary() {
+    stopScan();
+    setView("library");
+    setNotice(null);
+    window.scrollTo(0, 0);
+  }
+
+  function returnToScanner() {
+    setView("scan");
+    window.scrollTo(0, 0);
+  }
+
+  function toggleFavorite(codeToToggle: string) {
+    applyStoreWrite(window.PaperScanStore.toggleFavorite(codeToToggle));
+  }
+
+  function updateFeedback(patch: Partial<PaperScanState["feedback"]>) {
+    if (patch.sound) ensureAudioContext();
+    applyStoreWrite(window.PaperScanStore.setFeedback(patch));
+  }
+
+  function clearHistory() {
+    applyStoreWrite(window.PaperScanStore.clearHistory());
+    setClearHistoryOpen(false);
   }
 
   function submitBarcode(event: FormEvent<HTMLFormElement>) {
@@ -280,7 +438,7 @@ function App() {
           setPhotoState("idle");
         }
         // The button itself already confirms success; skip the duplicate alert.
-        openResult(text, { silent: known });
+        openResult(text, { silent: known, feedback: true });
       } finally {
         URL.revokeObjectURL(imageUrl);
       }
@@ -315,32 +473,68 @@ function App() {
       transition={{ duration: 0.2 }}
     >
       <Alert tone={notice.tone} title={notice.title} open>
-        {notice.detail}
+        <div className="notice-copy">
+          {notice.detail ? <p>{notice.detail}</p> : null}
+          {notice.action ? (
+            <Button className="notice-action" variant="secondary" size="sm" onClick={notice.action.onClick}>
+              {notice.action.label}
+            </Button>
+          ) : null}
+        </div>
       </Alert>
     </motion.div>
   ) : null;
 
   return (
-    <main className="app-shell">
+    <main className={`app-shell${view === "library" ? " app-shell-library" : ""}`}>
       {/* M3 Small Top App Bar */}
       <motion.header className="site-header" {...rise(0)}>
         <a className="brand" href={siteRoot.href} aria-label="PaperScan home">
           <img src={new URL("icon.svg", siteRoot).href} alt="" width="32" height="32" className="brand-icon" />
           <span className="brand-title">PaperScan</span>
         </a>
-        <Button
-          className="install-action"
-          variant="ghost"
-          size="sm"
-          onClick={() => setInstallOpen(true)}
-        >
-          <span>Install</span>
-          <ArrowUpRight size={15} aria-hidden="true" />
-        </Button>
+        <div className="header-actions">
+          <Button
+            className="library-action"
+            variant={view === "library" ? "secondary" : "ghost"}
+            size="sm"
+            aria-label={view === "library" ? "Back to scanner" : "Paper library"}
+            onClick={view === "library" ? returnToScanner : openLibrary}
+          >
+            {view === "library" ? <Camera size={17} aria-hidden="true" /> : <BookOpen size={17} aria-hidden="true" />}
+            <span>{view === "library" ? "Scan" : "Library"}</span>
+          </Button>
+          <Button
+            className="install-action"
+            variant="ghost"
+            size="sm"
+            aria-label="Install PaperScan"
+            onClick={() => setInstallOpen(true)}
+          >
+            <span>Install</span>
+            <ArrowUpRight size={15} aria-hidden="true" />
+          </Button>
+        </div>
       </motion.header>
 
       {/* Main Content Area */}
-      <section className="home-content" aria-labelledby="hero-title">
+      <section
+        className={`home-content${view === "library" ? " library-content" : ""}`}
+        aria-labelledby={view === "library" ? "library-title" : "hero-title"}
+      >
+        {view === "library" ? (
+          <PaperLibrary
+            papers={papers}
+            saved={savedState}
+            indexState={indexState}
+            storageWarning={storageWarning}
+            onBack={returnToScanner}
+            onOpenBarcode={(barcode) => openResult(barcode, { record: false })}
+            onToggleFavorite={toggleFavorite}
+            onClearHistory={() => setClearHistoryOpen(true)}
+          />
+        ) : (
+        <>
         <div className="hero-copy">
           {/* Amicro-style text reveal: each phrase rises out of a blur in turn. */}
           <h1 id="hero-title" aria-label="Scan. Open. Done.">
@@ -397,6 +591,29 @@ function App() {
               className={`scan-panel${cameraActive ? " is-scanning" : ""}`}
               aria-label="Barcode scanner"
             >
+              <div className="scan-tools" aria-label="Scan settings">
+                {cameraActive && torchSupported ? (
+                  <Button
+                    className="scan-tool"
+                    variant={torchOn ? "primary" : "secondary"}
+                    size="sm"
+                    aria-label={torchOn ? "Turn torch off" : "Turn torch on"}
+                    aria-pressed={torchOn}
+                    onClick={toggleTorch}
+                  >
+                    <Flashlight size={18} aria-hidden="true" />
+                  </Button>
+                ) : null}
+                <Button
+                  className="scan-tool"
+                  variant="secondary"
+                  size="sm"
+                  aria-label="Scan feedback settings"
+                  onClick={() => setFeedbackOpen(true)}
+                >
+                  <Settings2 size={18} aria-hidden="true" />
+                </Button>
+              </div>
               <video ref={videoRef} className="camera-feed" muted playsInline aria-label="Camera preview" />
 
               {/* M3 Clean Viewfinder Reticle */}
@@ -580,6 +797,8 @@ function App() {
             </a>
           </div>
         </motion.section>
+        </>
+        )}
       </section>
 
       {/* Install Dialog */}
@@ -591,6 +810,53 @@ function App() {
             <li>Tap Add to finish.</li>
           </ol>
           <p className="install-hint">Menu names vary by browser and system.</p>
+        </DialogContent>
+      </Dialog>
+
+      {/* Scan feedback settings */}
+      <Dialog open={feedbackOpen} onOpenChange={setFeedbackOpen}>
+        <DialogContent title="Scan feedback" description="Choose what happens when a barcode is read. Stored on this device.">
+          <div className="feedback-settings">
+            <label className="feedback-option">
+              <span>
+                <Volume2 size={19} aria-hidden="true" />
+                <span>
+                  <strong>Sound</strong>
+                  <small>Play a short chime</small>
+                </span>
+              </span>
+              <input
+                type="checkbox"
+                checked={savedState.feedback.sound}
+                onChange={(event) => updateFeedback({ sound: event.target.checked })}
+              />
+            </label>
+            <label className="feedback-option">
+              <span>
+                <Vibrate size={19} aria-hidden="true" />
+                <span>
+                  <strong>Vibration</strong>
+                  <small>A brief pulse where supported</small>
+                </span>
+              </span>
+              <input
+                type="checkbox"
+                checked={savedState.feedback.vibration}
+                onChange={(event) => updateFeedback({ vibration: event.target.checked })}
+              />
+            </label>
+            <p className="feedback-hint">The torch control appears only when the camera supports it.</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Clear scan history */}
+      <Dialog open={clearHistoryOpen} onOpenChange={setClearHistoryOpen}>
+        <DialogContent title="Clear scan history?" description="This removes recent scans from this device. Favorites are kept.">
+          <div className="dialog-actions">
+            <Button variant="secondary" onClick={() => setClearHistoryOpen(false)}>Keep history</Button>
+            <Button variant="danger" onClick={clearHistory}>Clear history</Button>
+          </div>
         </DialogContent>
       </Dialog>
     </main>

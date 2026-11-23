@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-19",
+  "updated": "2026-10-26",
   "qualifications": [
     "IAL",
     "IGCSE"
@@ -1913,7 +1913,7 @@
       "name": "Biology U4",
       "session": "Oct 2025",
       "qp": "https://archive.paperlords.org/library/IAL/Biology/Oct%202025/IAL_BIOLOGY_2025_Oct_U4_QP.pdf",
-      "ms": "https://archive.paperlords.org/library/IAL/Biology/Oct%202025/IAL_BIOLOGY_2025_Oct_U4_MS.pdf",
+      "ms": null,
       "source": "PaperLords"
     },
     {
@@ -2144,7 +2144,7 @@
       "name": "Business U1",
       "session": "Jan 2025",
       "qp": "https://archive.paperlords.org/library/IAL/Business/Jan%202025/IAL_IAL_BUSINESS_2025_Jan_U1_QP.pdf",
-      "ms": "https://archive.paperlords.org/library/IAL/Business/Jan%202025/IAL_IAL_BUSINESS_2025_Jan_U1_MS.pdf",
+      "ms": null,
       "source": "PaperLords"
     },
     {
@@ -6368,7 +6368,7 @@
       "name": "Maths M2A",
       "session": "Jan 2026",
       "qp": "https://archive.paperlords.org/library/IAL/Maths/Jan%202026/IAL_MATHS_2026_Jan_M2A_QP.pdf",
-      "ms": "https://archive.paperlords.org/library/IAL/Maths/Jan%202026/IAL_MATHS_2026_Jan_M2A_MS.pdf",
+      "ms": null,
       "source": "PaperLords"
     },
     {
@@ -7852,7 +7852,7 @@
       "unit": "P1A",
       "name": "Maths P1A",
       "session": "June 2026",
-      "qp": "https://archive.paperlords.org/library/IAL/Maths/June 2026/IAL_MATHS_2026_JUNE_P1A_QP_1786858026551.pdf",
+      "qp": null,
       "ms": "https://archive.paperlords.org/library/IAL/Maths/June 2026/IAL_MATHS_2026_JUNE_P1A_MS_1786858025916.pdf",
       "source": "PaperLords"
     },
@@ -7940,7 +7940,7 @@
       "unit": "S1A",
       "name": "Maths S1A",
       "session": "June 2026",
-      "qp": "https://archive.paperlords.org/library/IAL/Maths/June 2026/IAL_MATHS_2026_JUNE_S1A_QP_1786858036373.pdf",
+      "qp": null,
       "ms": "https://archive.paperlords.org/library/IAL/Maths/June 2026/IAL_MATHS_2026_JUNE_S1A_MS_1787724195905.pdf",
       "source": "PaperLords"
     },
@@ -9448,7 +9448,7 @@
       "name": "Physics U2",
       "session": "Jan 2025",
       "qp": "https://archive.paperlords.org/library/IAL/Physics/Jan 2025/PHYSICS_2025_Jan_U2_QP_1788273443091.pdf",
-      "ms": "https://archive.paperlords.org/library/IAL/Physics/Jan%202025/IAL_PHYSICS_2025_Jan_U2_MS.pdf",
+      "ms": null,
       "source": "PaperLords"
     },
     {

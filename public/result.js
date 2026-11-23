@@ -11,23 +11,30 @@ function navigate(url) {
   setTimeout(() => location.href = url, 200);
 }
 
-function parseBarcode(raw) {
-  const v = (raw || '').toUpperCase().replace(/[\s*]/g, '');
-  const m = /^(P\d{5,7}[A-Z]{1,3})(\d*)$/.exec(v);
-  if (!m) return null;
-  const suffix = m[2];
-  if (!suffix) return { code: m[1], page: null, total: null };
-  if (suffix.length < 3) return null;
-  const page = Number.parseInt(suffix.slice(0, -2), 10);
-  const total = Number.parseInt(suffix.slice(-2), 10);
-  return page > 0 && page <= total ? { code: m[1], page, total } : null;
-}
+const parseBarcode = (raw) => window.PaperScanStore.parseBarcode(raw);
 
 function node(tag, text, cls) {
   const e = document.createElement(tag);
   if (text) e.textContent = text;
   if (cls) e.className = cls;
   return e;
+}
+
+function favoriteAction(code) {
+  const button = node('button', null, 'favorite-toggle');
+  button.type = 'button';
+  const update = () => {
+    const active = window.PaperScanStore.isFavorite(code);
+    button.textContent = active ? 'Saved' : 'Save paper';
+    button.setAttribute('aria-pressed', String(active));
+    button.setAttribute('aria-label', active ? `Remove ${code} from favorites` : `Save ${code} to favorites`);
+  };
+  button.addEventListener('click', () => {
+    window.PaperScanStore.toggleFavorite(code);
+    update();
+  });
+  update();
+  return button;
 }
 
 function resource(url, title, subtitle, cls) {
@@ -83,7 +90,8 @@ async function render() {
     out.replaceChildren(
       metaHeader,
       node('h1', paper.name),
-      node('p', `${paper.unit} · ${barcode.code}`, 'paper-code')
+      node('p', `${paper.unit} · ${barcode.code}`, 'paper-code'),
+      favoriteAction(paper.code)
     );
 
     if (barcode.page) {
@@ -91,14 +99,18 @@ async function render() {
     }
 
     const choices = node('div', null, 'choices');
-    const pageUrl = barcode.page ? `${paper.qp}#page=${barcode.page}` : paper.qp;
-    choices.append(
-      resource(pageUrl, barcode.page ? `Open page ${barcode.page}` : 'Open paper', barcode.page ? 'Scanned page' : 'Question paper', 'page-choice'),
-      resource(paper.qp, 'Open full paper', 'From page 1', 'full-choice')
-    );
-
+    if (paper.qp) {
+      const pageUrl = barcode.page ? `${paper.qp}#page=${barcode.page}` : paper.qp;
+      choices.append(
+        resource(pageUrl, barcode.page ? `Open page ${barcode.page}` : 'Open paper', barcode.page ? 'Scanned page' : 'Question paper', 'page-choice'),
+        resource(paper.qp, 'Open full paper', 'From page 1', 'full-choice')
+      );
+    }
     if (paper.ms) {
       choices.append(resource(paper.ms, 'Open mark scheme', 'Mark scheme', 'ms'));
+    }
+    if (!paper.qp) {
+      out.append(node('p', 'This paper has no PDF link yet.', 'resource-unavailable'));
     }
 
     out.append(

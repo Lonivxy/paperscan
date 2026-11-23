@@ -22,7 +22,7 @@ from pypdf import PdfReader
 
 
 ROOT = Path(__file__).resolve().parents[1]
-INDEX = ROOT / "dist" / "papers.json"
+INDEX = ROOT / "public" / "papers.json"
 API = "https://lldrclumayqoegzfxdcb.supabase.co/rest/v1/papers"
 ANON_KEY = (
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."

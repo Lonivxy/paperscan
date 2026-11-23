@@ -1,4 +1,4 @@
-const CACHE = "paperscan-v11";
+const CACHE = "paperscan-v12";
 const ROOT = new URL("./", self.registration.scope);
 const asset = (path) => new URL(path, ROOT).href;
 const coreFiles = [
@@ -6,6 +6,7 @@ const coreFiles = [
   "index.html",
   "result.html",
   "result.js",
+  "paper-store.js",
   "style.css",
   "papers.json",
   "manifest.webmanifest",

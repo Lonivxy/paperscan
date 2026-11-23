@@ -173,6 +173,45 @@ header {
   background: color-mix(in oklab, var(--md-sys-color-primary) 8%, transparent);
 }
 
+.favorite-toggle {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 999px;
+  padding: 0 16px;
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.favorite-toggle[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.favorite-toggle:hover {
+  background: color-mix(in oklab, var(--md-sys-color-primary) 8%, transparent);
+}
+
+.favorite-toggle:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.resource-unavailable {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 14px;
+}
+
 .result-page h1 {
   font-family: var(--font-title);
   font-size: clamp(30px, 5.5vw, 42px);
