@@ -36,11 +36,15 @@
     const history = Array.isArray(value.history)
       ? value.history.flatMap((entry) => {
           if (!entry || typeof entry !== "object" || typeof entry.barcode !== "string" || !validCode(entry.code)) return [];
+          const normalizedBarcode = normalizeBarcode(entry.barcode);
+          const parsedBarcode = parseBarcode(normalizedBarcode);
+          const page = Number.isInteger(entry.page) && entry.page > 0 ? entry.page : (parsedBarcode?.page ?? null);
+          const total = Number.isInteger(entry.total) && entry.total > 0 ? entry.total : (parsedBarcode?.total ?? null);
           return [{
-            barcode: normalizeBarcode(entry.barcode),
+            barcode: normalizedBarcode,
             code: entry.code,
-            page: Number.isInteger(entry.page) && entry.page > 0 ? entry.page : null,
-            total: Number.isInteger(entry.total) && entry.total > 0 ? entry.total : null,
+            page,
+            total,
             scannedAt: Number.isFinite(entry.scannedAt) && Math.abs(entry.scannedAt) <= 8640000000000000 ? entry.scannedAt : Date.now(),
           }];
         }).slice(0, historyLimit)
@@ -95,13 +99,16 @@
 
   function recordScan(barcode, parsed, scannedAt = Date.now()) {
     const normalized = normalizeBarcode(barcode);
-    if (!validCode(parsed?.code) || !normalized.startsWith(parsed.code)) return { state: get(), persisted: false };
+    const resolved = parsed ?? parseBarcode(normalized);
+    if (!validCode(resolved?.code) || !normalized.startsWith(resolved.code)) return { state: get(), persisted: false };
+    const page = Number.isInteger(resolved.page) && resolved.page > 0 ? resolved.page : null;
+    const total = Number.isInteger(resolved.total) && resolved.total > 0 ? resolved.total : null;
     const state = get();
     state.history = [{
       barcode: normalized,
-      code: parsed.code,
-      page: parsed.page ?? null,
-      total: parsed.total ?? null,
+      code: resolved.code,
+      page,
+      total: page && total && page <= total ? total : (page ? null : total),
       scannedAt,
     }, ...state.history.filter((entry) => entry.barcode !== normalized)].slice(0, historyLimit);
     return save(state);

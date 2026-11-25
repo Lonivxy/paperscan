@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import vm from "node:vm";
+import { parseBarcode as appParseBarcode } from "../src/lib/barcode.js";
 
 const source = await readFile(new URL("../public/paper-store.js", import.meta.url), "utf8");
 
@@ -66,7 +67,55 @@ test("drops the in-memory copy when the storage key is removed elsewhere", () =>
 
 test("the store exposes the same barcode parsing as the app", () => {
   const store = createStore();
-  assert.deepEqual(JSON.parse(JSON.stringify(store.parseBarcode(" p76186a 06*28 "))), { code: "P76186A", page: 6, total: 28 });
-  assert.equal(store.parseBarcode("not a barcode"), null);
+  for (const sample of [
+    " p76186a 06*28 ",
+    "P79710A0620",
+    "P79710A01220",
+    "*p79710a 012*20*",
+    "P61109A",
+    "P71980RA",
+    "P72868RRA",
+    "",
+    null,
+    "12345",
+    "P79710A0",
+    "P79710A06",
+    "P79710A0020",
+    "P79710A9920",
+    "P79710A0600",
+    "P79710A100120",
+    "P79710A-0620",
+    "not a barcode",
+  ]) {
+    assert.deepEqual(
+      JSON.parse(JSON.stringify(store.parseBarcode(sample))),
+      appParseBarcode(sample),
+      `parity mismatch for ${String(sample)}`,
+    );
+  }
   assert.equal(store.normalizeBarcode(" p76186a 06*28 "), "P76186A0628");
+  assert.equal(store.normalizeBarcode(" p79710a 012*20 "), "P79710A01220");
+});
+
+test("preserves full barcodes and deduplicates per full barcode across different pages of the same paper", () => {
+  const store = createStore();
+  store.recordScan("P79710A0620", store.parseBarcode("P79710A0620"), 100);
+  store.recordScan("P79710A01220", store.parseBarcode("P79710A01220"), 200);
+  store.recordScan("P79710A", store.parseBarcode("P79710A"), 300);
+
+  let history = JSON.parse(JSON.stringify(store.get().history));
+  assert.deepEqual(history, [
+    { barcode: "P79710A", code: "P79710A", page: null, total: null, scannedAt: 300 },
+    { barcode: "P79710A01220", code: "P79710A", page: 12, total: 20, scannedAt: 200 },
+    { barcode: "P79710A0620", code: "P79710A", page: 6, total: 20, scannedAt: 100 },
+  ]);
+
+  // Re-scanning P79710A0620 deduplicates only that exact barcode and moves it to index 0
+  store.recordScan(" p79710a 06*20 ", store.parseBarcode("P79710A0620"), 400);
+  history = JSON.parse(JSON.stringify(store.get().history));
+  assert.deepEqual(history, [
+    { barcode: "P79710A0620", code: "P79710A", page: 6, total: 20, scannedAt: 400 },
+    { barcode: "P79710A", code: "P79710A", page: null, total: null, scannedAt: 300 },
+    { barcode: "P79710A01220", code: "P79710A", page: 12, total: 20, scannedAt: 200 },
+  ]);
 });
