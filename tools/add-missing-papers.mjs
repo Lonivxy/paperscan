@@ -1,6 +1,10 @@
 /**
  * M2: Add 149 verified missing papers (72 PaperLords + 77 unique Pearson)
  * Run: node tools/add-missing-papers.mjs
+ *
+ * Historical one-off migration kept as provenance for the 149 catalogue
+ * entries. It is idempotent: codes already present are skipped, so re-running
+ * only rewrites `updated` and changes nothing else. Safe to delete once merged.
  */
 import { readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
