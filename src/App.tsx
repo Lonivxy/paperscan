@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ChangeEvent, FormEvent, SyntheticEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import {
   ArrowUpRight,
   BookOpen,
@@ -28,7 +28,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/arc/tabs/tabs";
-import { normalizeBarcode, parseBarcode } from "@/lib/barcode.js";
+import { cleanBarcode, parseBarcode, prepareScanResultTarget } from "@/lib/barcode.js";
 import type { PaperIndex } from "@/lib/papers";
 import type { PaperScanState, PaperScanWrite } from "@/lib/paper-store.types";
 
@@ -112,6 +112,7 @@ function App() {
   const [torchOn, setTorchOn] = useState(false);
   const [photoState, setPhotoState] = useState<"idle" | "busy" | "done">("idle");
   const [copiedExample, setCopiedExample] = useState(false);
+  const [subjectsOpen, setSubjectsOpen] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const photoRef = useRef<HTMLInputElement>(null);
@@ -250,11 +251,10 @@ function App() {
   }, []);
 
   const openResult = useCallback((raw: string, options?: { record?: boolean; feedback?: boolean; silent?: boolean }) => {
-    const barcode = parseBarcode(raw);
-    const cleaned = (normalizeBarcode(raw) ?? "").slice(0, 30);
+    const { barcode, cleaned, resultHref } = prepareScanResultTarget(raw, window.location.href);
     setCode(cleaned);
     setView("scan");
-    if (!barcode) {
+    if (!barcode || !resultHref) {
       setMode("input");
       setNotice({
         tone: "warning",
@@ -290,15 +290,13 @@ function App() {
     if (!options?.silent) {
       setNotice({ tone: "success", title: "Barcode found", detail: "Opening the paper." });
     }
-    const resultUrl = new URL("result.html", window.location.href);
-    resultUrl.searchParams.set("barcode", cleaned);
     const shell = document.querySelector(".app-shell");
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !shell) {
-      window.location.assign(resultUrl.href);
+      window.location.assign(resultHref);
       return;
     }
     shell.classList.add("page-leaving");
-    window.setTimeout(() => window.location.assign(resultUrl.href), 220);
+    window.setTimeout(() => window.location.assign(resultHref), 220);
   }, [applyStoreWrite, focusManualEntry, indexState, papers, playScanFeedback]);
 
   async function startScan() {
@@ -330,12 +328,12 @@ function App() {
           }
           if (!result) return;
           const text = result.getText();
-          if (normalizeBarcode(text)) {
+          if (parseBarcode(text)) {
             callbackControls?.stop();
             stopScan();
             openResult(text, { feedback: true });
           } else {
-            const readText = (normalizeBarcode(text) ?? "").slice(0, 30);
+            const readText = cleanBarcode(text).slice(0, 30);
             setNotice({
               tone: "warning",
               title: "That's a different barcode",
@@ -417,8 +415,8 @@ function App() {
 
   // Arc's tab height morph can leave an inline height on the panel when content
   // grows mid-transition; release it so an expanded list can't overlap the page below.
-  function releaseTabPanelHeight(event: SyntheticEvent<HTMLDetailsElement>) {
-    const panel = event.currentTarget.closest<HTMLElement>('[role="tabpanel"]');
+  function releaseTabPanelHeight() {
+    const panel = document.querySelector<HTMLElement>('[role="tabpanel"]');
     if (!panel) return;
     requestAnimationFrame(() => {
       panel.style.height = "";
@@ -676,11 +674,7 @@ function App() {
               ) : null}
 
               {/* M3 Extended Floating Action Button (FAB) */}
-              <motion.div
-                className="scan-action-wrapper"
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 450, damping: 30 }}
-              >
+              <div className="scan-action-wrapper">
                 <Button
                   className="scan-action"
                   variant="primary"
@@ -699,7 +693,7 @@ function App() {
                     </>
                   )}
                 </Button>
-              </motion.div>
+              </div>
             </section>
             <div className="notice-slot">{noticeView}</div>
           </TabsContent>
@@ -721,42 +715,74 @@ function App() {
                     required
                   />
                 </div>
-                <motion.div whileTap={{ scale: 0.98 }}>
-                  <Button className="lookup-action" variant="primary" type="submit">
+                <Button className="lookup-action" variant="primary" type="submit">
                     <span>Find paper</span>
                     <ArrowUpRight size={17} aria-hidden="true" />
                   </Button>
-                </motion.div>
               </form>
 
-              {/* M3 Assist Chip */}
+              {/* M3 Assist Chip — AnimatePresence crossfades the check icon */}
               <div className="chips-row">
                 <motion.button
                   type="button"
                   className="assist-chip"
                   onClick={showExample}
-                  whileTap={{ scale: 0.97 }}
+                  whileTap={reduced ? undefined : { scale: 0.97 }}
                   transition={{ type: "spring", stiffness: 450, damping: 30 }}
                 >
-                  {copiedExample ? (
-                    <Check size={14} className="chip-icon-active" aria-hidden="true" />
-                  ) : null}
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    {copiedExample ? (
+                      <motion.span
+                        key="check"
+                        style={{ display: "inline-flex" }}
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        transition={{ type: "spring", stiffness: 500, damping: 28 }}
+                      >
+                        <Check size={14} className="chip-icon-active" aria-hidden="true" />
+                      </motion.span>
+                    ) : null}
+                  </AnimatePresence>
                   <span>Example P61109A</span>
                 </motion.button>
               </div>
 
-              {/* Clean M3 Subjects Details */}
-              <details className="subjects-details" onToggle={releaseTabPanelHeight}>
-                <summary>
+              {/* Spring-animated subjects accordion — replaces native <details> */}
+              <div className="subjects-details">
+                <button
+                  type="button"
+                  className="subjects-summary"
+                  aria-expanded={subjectsOpen}
+                  onClick={() => { setSubjectsOpen((o) => !o); releaseTabPanelHeight(); }}
+                >
                   <span>Supported subjects</span>
-                  <ChevronDown size={15} className="details-chevron" aria-hidden="true" />
-                </summary>
-                <div className="subjects-list">
-                  {subjects.map((s) => (
-                    <span key={s} className="subject-chip">{s}</span>
-                  ))}
-                </div>
-              </details>
+                  <motion.span
+                    animate={reduced ? undefined : { rotate: subjectsOpen ? 180 : 0 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    style={{ display: "inline-flex" }}
+                  >
+                    <ChevronDown size={15} className="details-chevron" aria-hidden="true" />
+                  </motion.span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {subjectsOpen && (
+                    <motion.div
+                      className="subjects-list"
+                      key="subjects"
+                      initial={reduced ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduced ? { opacity: 0 } : { height: 0, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 340, damping: 34 }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      {subjects.map((s) => (
+                        <span key={s} className="subject-chip">{s}</span>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               <div className="notice-slot">{noticeView}</div>
             </section>
@@ -856,7 +882,7 @@ function App() {
       <Dialog open={feedbackOpen} onOpenChange={setFeedbackOpen}>
         <DialogContent title="Scan feedback" description="Choose what happens when a barcode is read. Stored on this device.">
           <div className="feedback-settings">
-            <label className="feedback-option">
+            <div className="feedback-option" onClick={() => updateFeedback({ sound: !savedState.feedback.sound })}>
               <span>
                 <Volume2 size={19} aria-hidden="true" />
                 <span>
@@ -864,13 +890,25 @@ function App() {
                   <small>Play a short chime</small>
                 </span>
               </span>
-              <input
-                type="checkbox"
-                checked={savedState.feedback.sound}
-                onChange={(event) => updateFeedback({ sound: event.target.checked })}
-              />
-            </label>
-            <label className="feedback-option">
+              <button
+                type="button"
+                role="switch"
+                aria-label="Sound"
+                aria-checked={savedState.feedback.sound}
+                className="arc-switch"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  updateFeedback({ sound: !savedState.feedback.sound });
+                }}
+              >
+                <motion.span
+                  className="arc-switch-thumb"
+                  animate={{ x: savedState.feedback.sound ? 20 : 0 }}
+                  transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 36 }}
+                />
+              </button>
+            </div>
+            <div className="feedback-option" onClick={() => updateFeedback({ vibration: !savedState.feedback.vibration })}>
               <span>
                 <Vibrate size={19} aria-hidden="true" />
                 <span>
@@ -878,12 +916,24 @@ function App() {
                   <small>A brief pulse where supported</small>
                 </span>
               </span>
-              <input
-                type="checkbox"
-                checked={savedState.feedback.vibration}
-                onChange={(event) => updateFeedback({ vibration: event.target.checked })}
-              />
-            </label>
+              <button
+                type="button"
+                role="switch"
+                aria-label="Vibration"
+                aria-checked={savedState.feedback.vibration}
+                className="arc-switch"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  updateFeedback({ vibration: !savedState.feedback.vibration });
+                }}
+              >
+                <motion.span
+                  className="arc-switch-thumb"
+                  animate={{ x: savedState.feedback.vibration ? 20 : 0 }}
+                  transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 36 }}
+                />
+              </button>
+            </div>
             <p className="feedback-hint">The torch control appears only when the camera supports it.</p>
           </div>
         </DialogContent>

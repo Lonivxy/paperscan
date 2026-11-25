@@ -29,7 +29,7 @@ export interface PaperScanStoreApi {
   get(): PaperScanState;
   normalizeBarcode(value: string): string;
   parseBarcode(value: string): ParsedScan | null;
-  recordScan(barcode: string, parsed: ParsedScan, scannedAt?: number): PaperScanWrite;
+  recordScan(barcode: string, parsed?: ParsedScan | null, scannedAt?: number): PaperScanWrite;
   toggleFavorite(code: string): PaperScanWrite & { active: boolean };
   isFavorite(code: string): boolean;
   setFeedback(patch: Partial<PaperScanState["feedback"]>): PaperScanWrite;

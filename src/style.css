@@ -827,7 +827,7 @@ a {
   color: var(--md-sys-color-primary);
 }
 
-/* M3 Subjects Disclosure */
+/* M3 Subjects Disclosure — spring-animated controlled accordion */
 .subjects-details {
   margin-top: 18px;
   color: var(--md-sys-color-on-surface-variant);
@@ -835,26 +835,31 @@ a {
   line-height: var(--md-sys-typescale-body-medium-line);
 }
 
-.subjects-details summary {
+/* Button replaces <summary>; keep same visual style */
+.subjects-summary {
   display: flex;
   min-height: 44px;
+  width: 100%;
   align-items: center;
   gap: 6px;
   cursor: pointer;
   user-select: none;
   font-weight: 500;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  justify-content: flex-start;
 }
 
-.subjects-details summary:hover {
+.subjects-summary:hover {
   color: var(--md-sys-color-on-surface);
 }
 
 .details-chevron {
   transition: transform 180ms ease;
-}
-
-.subjects-details[open] .details-chevron {
-  transform: rotate(180deg);
 }
 
 .subjects-list {
@@ -1142,6 +1147,8 @@ a {
 }
 
 .library-tabs button {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   min-height: 48px;
   align-items: center;
@@ -1156,7 +1163,26 @@ a {
   font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+  transition:
+    background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard),
+    transform 160ms var(--md-sys-motion-easing-emphasized-decelerate);
+}
+
+.library-tabs button > *:not(.tab-glide-pill) {
+  position: relative;
+  z-index: 1;
+}
+
+.library-tabs button .tab-glide-pill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  border-radius: inherit;
+  background: var(--md-sys-color-secondary);
 }
 
 .library-tabs button:hover {
@@ -1164,7 +1190,7 @@ a {
 }
 
 .library-tabs button.is-active {
-  background: var(--md-sys-color-secondary);
+  background: transparent;
   color: var(--md-sys-color-on-secondary);
 }
 
@@ -1172,13 +1198,7 @@ a {
   transform: scale(0.97);
 }
 
-.library-tabs button {
-  transition:
-    background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard),
-    transform 160ms var(--md-sys-motion-easing-emphasized-decelerate);
-}
-
-.library-tabs button span {
+.library-tabs button span:not(.tab-glide-pill) {
   display: inline-grid;
   min-width: 20px;
   height: 20px;
@@ -1524,48 +1544,44 @@ a {
   font-size: var(--md-sys-typescale-body-small-size);
 }
 
-/* M3 switch */
-.feedback-option input[type="checkbox"] {
+/* M3 / Arc spring switch */
+.arc-switch {
   position: relative;
+  display: inline-flex;
+  align-items: center;
   width: 52px;
   height: 32px;
   flex: 0 0 auto;
   margin: 0;
   border: none;
   border-radius: var(--md-sys-shape-corner-full);
-  padding: 0;
-  appearance: none;
+  padding: 4px;
   background: var(--md-sys-color-surface-container-highest);
   cursor: pointer;
   transition: background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
 }
 
-.feedback-option input[type="checkbox"]::before {
-  position: absolute;
-  top: 4px;
-  left: 4px;
+.arc-switch[aria-checked="true"] {
+  background: var(--md-sys-color-primary);
+}
+
+.arc-switch:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.arc-switch-thumb {
+  display: block;
   width: 24px;
   height: 24px;
   border-radius: 50%;
   background: var(--md-sys-color-outline);
-  content: "";
-  transition:
-    transform 220ms var(--ease-spring),
-    background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
+  transition: background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
 }
 
-.feedback-option input[type="checkbox"]:checked {
-  background: var(--md-sys-color-primary);
-}
-
-.feedback-option input[type="checkbox"]:checked::before {
-  transform: translateX(20px);
+.arc-switch[aria-checked="true"] .arc-switch-thumb {
   background: var(--md-sys-color-on-primary);
-}
-
-.feedback-option input[type="checkbox"]:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
 }
 
 .feedback-hint {

@@ -1,13 +1,21 @@
 import { useMemo, useState } from "react";
 import { ArrowUpRight, BookOpen, Clock3, Star, Trash2 } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, LayoutGroup } from "motion/react";
 import { Button } from "@/components/arc/button/button";
 import { Input } from "@/components/arc/input/input";
+import { buildPdfPageUrl, parseBarcode } from "@/lib/barcode.js";
 import type { Paper } from "@/lib/papers";
 import type { PaperScanState } from "@/lib/paper-store.types";
 
 type LibraryTab = "all" | "recent" | "favorites";
-type LibraryItem = { code: string; paper?: Paper; barcode?: string; scannedAt?: number };
+type LibraryItem = {
+  code: string;
+  paper?: Paper;
+  barcode?: string;
+  page?: number | null;
+  total?: number | null;
+  scannedAt?: number;
+};
 
 interface PaperLibraryProps {
   papers: Paper[];
@@ -72,7 +80,15 @@ export function PaperLibrary({
     return saved.history.flatMap((entry) => {
       if (seen.has(entry.code)) return [];
       seen.add(entry.code);
-      return [{ code: entry.code, paper: paperByCode.get(entry.code), barcode: entry.barcode, scannedAt: entry.scannedAt }];
+      const parsed = entry.barcode ? parseBarcode(entry.barcode) : null;
+      return [{
+        code: entry.code,
+        paper: paperByCode.get(entry.code),
+        barcode: entry.barcode,
+        page: entry.page ?? parsed?.page ?? null,
+        total: entry.total ?? parsed?.total ?? null,
+        scannedAt: entry.scannedAt,
+      }];
     });
   }, [paperByCode, saved.history]);
   const items = useMemo<LibraryItem[]>(() => {
@@ -133,17 +149,31 @@ export function PaperLibrary({
         </div>
       ) : (
         <>
-          <div className="library-tabs" role="group" aria-label="Library view">
-            <button type="button" aria-pressed={tab === "all"} className={tab === "all" ? "is-active" : ""} onClick={() => changeTab("all")}>
-              <BookOpen size={16} aria-hidden="true" />All papers
-            </button>
-            <button type="button" aria-pressed={tab === "recent"} className={tab === "recent" ? "is-active" : ""} onClick={() => changeTab("recent")}>
-              <Clock3 size={16} aria-hidden="true" />Recent{recentItems.length ? <span>{recentItems.length}</span> : null}
-            </button>
-            <button type="button" aria-pressed={tab === "favorites"} className={tab === "favorites" ? "is-active" : ""} onClick={() => changeTab("favorites")}>
-              <Star size={16} aria-hidden="true" />Favorites{saved.favorites.length ? <span>{saved.favorites.length}</span> : null}
-            </button>
-          </div>
+          <LayoutGroup id="library-tabs">
+            <div className="library-tabs" role="group" aria-label="Library view">
+              {(["all", "recent", "favorites"] as const).map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  aria-pressed={tab === t}
+                  className={tab === t ? "is-active" : ""}
+                  onClick={() => changeTab(t)}
+                  style={{ position: "relative" }}
+                >
+                  {tab === t && (
+                    <motion.span
+                      className="tab-glide-pill"
+                      layoutId="tab-glide-pill"
+                      transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 36 }}
+                    />
+                  )}
+                  {t === "all" && <><BookOpen size={16} aria-hidden="true" />All papers</>}
+                  {t === "recent" && <><Clock3 size={16} aria-hidden="true" />Recent{recentItems.length ? <span>{recentItems.length}</span> : null}</>}
+                  {t === "favorites" && <><Star size={16} aria-hidden="true" />Favorites{saved.favorites.length ? <span>{saved.favorites.length}</span> : null}</>}
+                </button>
+              ))}
+            </div>
+          </LayoutGroup>
 
           <div className="library-filters" aria-label="Filter the library">
             <Input
@@ -203,12 +233,18 @@ export function PaperLibrary({
                 const paper = item.paper;
                 const favorite = saved.favorites.includes(item.code);
                 const scanBarcode = item.barcode ?? item.code;
+                const parsedScan = tab === "recent" && item.barcode ? parseBarcode(item.barcode) : null;
+                const scanPage = tab === "recent" ? (item.page ?? parsedScan?.page ?? null) : null;
+                const scanTotal = tab === "recent" ? (item.total ?? parsedScan?.total ?? null) : null;
+                const qpHref = paper?.qp ? buildPdfPageUrl(paper.qp, scanPage) : undefined;
+                const msHref = paper?.ms ? buildPdfPageUrl(paper.ms) : undefined;
                 return (
                   <motion.article
                     className="library-card"
                     key={`${item.code}:${item.barcode ?? tab}`}
                     initial={reduced ? false : { opacity: 0, y: 14, filter: "blur(4px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    whileHover={reduced ? undefined : { y: -2, transition: { type: "spring", stiffness: 400, damping: 28 } }}
                     transition={{
                       duration: 0.45,
                       delay: reduced ? 0 : Math.min(index, 10) * 0.025,
@@ -231,7 +267,11 @@ export function PaperLibrary({
                           item.code
                         )}
                       </h2>
-                      <p className="library-card-meta">{paper ? `${paper.session} · ${paper.unit} · ${item.code}` : "Edit the code and try again"}</p>
+                      <p className="library-card-meta">
+                        {paper
+                          ? `${paper.session} · ${paper.unit} · ${item.code}${scanPage ? ` · Page ${scanPage}${scanTotal ? ` / ${scanTotal}` : ""}` : ""}`
+                          : "Edit the code and try again"}
+                      </p>
                       {item.scannedAt ? (
                         <time dateTime={new Date(item.scannedAt).toISOString()}>
                           <Clock3 size={13} aria-hidden="true" />Recent · {formatScanDate(item.scannedAt)}
@@ -257,15 +297,42 @@ export function PaperLibrary({
                           <Star size={17} fill={favorite ? "currentColor" : "none"} aria-hidden="true" />
                         </motion.span>
                       </Button>
-                      {paper?.qp ? (
-                        <a className="library-document-action" href={paper.qp} target="_blank" rel="noopener noreferrer">
-                          Open paper <ArrowUpRight size={14} aria-hidden="true" />
-                        </a>
+                      {qpHref ? (
+                        <motion.a
+                          className="library-document-action"
+                          href={qpHref}
+                          data-page={scanPage ?? undefined}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={reduced ? undefined : "hover"}
+                        >
+                          <span>{scanPage ? `Open page ${scanPage}` : "Open paper"}</span>
+                          <motion.span
+                            variants={{ hover: { x: 2, y: -2 } }}
+                            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                            style={{ display: "inline-flex" }}
+                          >
+                            <ArrowUpRight size={14} aria-hidden="true" />
+                          </motion.span>
+                        </motion.a>
                       ) : null}
-                      {paper?.ms ? (
-                        <a className="library-document-action library-mark-scheme" href={paper.ms} target="_blank" rel="noopener noreferrer">
-                          Mark scheme <ArrowUpRight size={14} aria-hidden="true" />
-                        </a>
+                      {msHref ? (
+                        <motion.a
+                          className="library-document-action library-mark-scheme"
+                          href={msHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={reduced ? undefined : "hover"}
+                        >
+                          <span>Mark scheme</span>
+                          <motion.span
+                            variants={{ hover: { x: 2, y: -2 } }}
+                            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                            style={{ display: "inline-flex" }}
+                          >
+                            <ArrowUpRight size={14} aria-hidden="true" />
+                          </motion.span>
+                        </motion.a>
                       ) : null}
                       {paper && !paper.qp ? <span className="library-resource-note">PDF unavailable</span> : null}
                       {paper ? null : (

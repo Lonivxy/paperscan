@@ -13,6 +13,19 @@ function navigate(url) {
 
 const parseBarcode = (raw) => window.PaperScanStore.parseBarcode(raw);
 
+function buildPdfUrl(rawUrl, page = null) {
+  if (typeof rawUrl !== 'string' || !rawUrl.trim()) return '';
+  const fragment = Number.isInteger(page) && page > 0 ? `page=${page}` : '';
+  try {
+    const url = new URL(rawUrl, location.href);
+    url.hash = fragment;
+    return url.href;
+  } catch {
+    const base = rawUrl.split('#')[0];
+    return fragment ? `${base}#${fragment}` : base;
+  }
+}
+
 function node(tag, text, cls) {
   const e = document.createElement(tag);
   if (text) e.textContent = text;
@@ -42,7 +55,7 @@ function resource(url, title, subtitle, cls) {
   a.href = url;
   const t = node('span', title);
   t.append(node('small', subtitle));
-  a.append(t, node('span', '↗'));
+  a.append(t, node('span', '↗', 'arrow-icon'));
   return a;
 }
 
@@ -95,19 +108,29 @@ async function render() {
     );
 
     if (barcode.page) {
-      out.append(node('p', `Page ${barcode.page} / ${barcode.total}`, 'page-tracker'));
+      const tracker = node('p', `Page ${barcode.page} / ${barcode.total}`, 'page-tracker');
+      tracker.dataset.testid = 'page-tracker';
+      out.append(tracker);
     }
 
     const choices = node('div', null, 'choices');
     if (paper.qp) {
-      const pageUrl = barcode.page ? `${paper.qp}#page=${barcode.page}` : paper.qp;
+      const pageUrl = buildPdfUrl(paper.qp, barcode.page);
+      const fullUrl = buildPdfUrl(paper.qp);
+      const pageLink = resource(
+        pageUrl,
+        barcode.page ? `Open page ${barcode.page}` : 'Open paper',
+        barcode.page ? 'Scanned page' : 'Question paper',
+        'page-choice'
+      );
+      pageLink.dataset.testid = 'open-page-action';
       choices.append(
-        resource(pageUrl, barcode.page ? `Open page ${barcode.page}` : 'Open paper', barcode.page ? 'Scanned page' : 'Question paper', 'page-choice'),
-        resource(paper.qp, 'Open full paper', 'From page 1', 'full-choice')
+        pageLink,
+        resource(fullUrl, 'Open full paper', 'From page 1', 'full-choice')
       );
     }
     if (paper.ms) {
-      choices.append(resource(paper.ms, 'Open mark scheme', 'Mark scheme', 'ms'));
+      choices.append(resource(buildPdfUrl(paper.ms), 'Open mark scheme', 'Mark scheme', 'ms'));
     }
     if (!paper.qp) {
       out.append(node('p', 'This paper has no PDF link yet.', 'resource-unavailable'));
