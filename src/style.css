@@ -1148,6 +1148,9 @@ a {
 
 .library-tabs button {
   position: relative;
+  /* Own stacking context so the glide pill (z-index: -1) paints above the
+     button background but behind its text, icons, and count badge. */
+  isolation: isolate;
   overflow: hidden;
   display: inline-flex;
   min-height: 48px;
@@ -1176,7 +1179,7 @@ a {
 .library-tabs button .tab-glide-pill {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   display: block;
   min-width: 0;
   height: auto;

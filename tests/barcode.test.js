@@ -149,7 +149,11 @@ test("prepareScanResultTarget preserves full barcodes for navigation and retains
 
 test("App.tsx uses prepareScanResultTarget and cleanBarcode instead of normalizeBarcode", async () => {
   const appSource = await readFile(new URL("../src/App.tsx", import.meta.url), "utf8");
+  const barcodeImport = appSource.match(/import\s*\{([^}]*)\}\s*from\s*["']@\/lib\/barcode\.js["']/);
+  assert.ok(barcodeImport, "App.tsx imports from @/lib/barcode.js");
+  assert.match(barcodeImport[1], /prepareScanResultTarget/);
+  assert.match(barcodeImport[1], /cleanBarcode/);
+  assert.doesNotMatch(barcodeImport[1], /normalizeBarcode/);
   assert.match(appSource, /prepareScanResultTarget\(raw,\s*window\.location\.href\)/);
   assert.match(appSource, /cleanBarcode\(text\)\.slice\(0,\s*30\)/);
-  assert.equal(appSource.includes("normalizeBarcode("), false);
 });

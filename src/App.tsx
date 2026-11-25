@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import type { ChangeEvent, FormEvent, SyntheticEvent } from "react";
 import {
   ArrowUpRight,
   BookOpen,
@@ -415,8 +415,10 @@ function App() {
 
   // Arc's tab height morph can leave an inline height on the panel when content
   // grows mid-transition; release it so an expanded list can't overlap the page below.
-  function releaseTabPanelHeight() {
-    const panel = document.querySelector<HTMLElement>('[role="tabpanel"]');
+  // Scope to the panel that contains the control: Arc keeps the outgoing panel
+  // mounted during a tab morph, so a document-wide lookup can target the wrong one.
+  function releaseTabPanelHeight(event: SyntheticEvent<HTMLElement>) {
+    const panel = event.currentTarget.closest<HTMLElement>('[role="tabpanel"]');
     if (!panel) return;
     requestAnimationFrame(() => {
       panel.style.height = "";
@@ -735,10 +737,10 @@ function App() {
                       <motion.span
                         key="check"
                         style={{ display: "inline-flex" }}
-                        initial={{ opacity: 0, scale: 0.5 }}
+                        initial={reduced ? false : { opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.5 }}
-                        transition={{ type: "spring", stiffness: 500, damping: 28 }}
+                        exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.5 }}
+                        transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 28 }}
                       >
                         <Check size={14} className="chip-icon-active" aria-hidden="true" />
                       </motion.span>
@@ -754,12 +756,12 @@ function App() {
                   type="button"
                   className="subjects-summary"
                   aria-expanded={subjectsOpen}
-                  onClick={() => { setSubjectsOpen((o) => !o); releaseTabPanelHeight(); }}
+                  onClick={(event) => { setSubjectsOpen((o) => !o); releaseTabPanelHeight(event); }}
                 >
                   <span>Supported subjects</span>
                   <motion.span
-                    animate={reduced ? undefined : { rotate: subjectsOpen ? 180 : 0 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    animate={{ rotate: subjectsOpen ? 180 : 0 }}
+                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 30 }}
                     style={{ display: "inline-flex" }}
                   >
                     <ChevronDown size={15} className="details-chevron" aria-hidden="true" />
@@ -887,13 +889,14 @@ function App() {
                 <Volume2 size={19} aria-hidden="true" />
                 <span>
                   <strong>Sound</strong>
-                  <small>Play a short chime</small>
+                  <small id="feedback-sound-desc">Play a short chime</small>
                 </span>
               </span>
               <button
                 type="button"
                 role="switch"
                 aria-label="Sound"
+                aria-describedby="feedback-sound-desc"
                 aria-checked={savedState.feedback.sound}
                 className="arc-switch"
                 onClick={(event) => {
@@ -913,13 +916,14 @@ function App() {
                 <Vibrate size={19} aria-hidden="true" />
                 <span>
                   <strong>Vibration</strong>
-                  <small>A brief pulse where supported</small>
+                  <small id="feedback-vibration-desc">A brief pulse where supported</small>
                 </span>
               </span>
               <button
                 type="button"
                 role="switch"
                 aria-label="Vibration"
+                aria-describedby="feedback-vibration-desc"
                 aria-checked={savedState.feedback.vibration}
                 className="arc-switch"
                 onClick={(event) => {
