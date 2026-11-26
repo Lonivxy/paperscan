@@ -1180,7 +1180,6 @@ a {
   gap: inherit;
 }
 
-.library-tabs button .library-tab-glide-pill,
 .library-tabs button .tab-glide-pill {
   position: absolute;
   inset: 0;

@@ -418,6 +418,24 @@ footer a {
   text-decoration: none;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .back-button,
+  .favorite-toggle,
+  .choices .doc-link,
+  .choices .doc-link .arrow-icon,
+  .result-nav a {
+    transition: none;
+  }
+
+  .back-button:active,
+  .favorite-toggle:active,
+  .choices .doc-link:hover,
+  .choices .doc-link:active,
+  .choices .doc-link:hover .arrow-icon {
+    transform: none;
+  }
+}
+
 footer a:hover {
   background: color-mix(in oklab, var(--md-sys-color-primary) 8%, transparent);
   color: var(--md-sys-color-primary);
