@@ -167,9 +167,11 @@ export function PaperLibrary({
                       transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 36 }}
                     />
                   )}
-                  {t === "all" && <><BookOpen size={16} aria-hidden="true" />All papers</>}
-                  {t === "recent" && <><Clock3 size={16} aria-hidden="true" />Recent{recentItems.length ? <span>{recentItems.length}</span> : null}</>}
-                  {t === "favorites" && <><Star size={16} aria-hidden="true" />Favorites{saved.favorites.length ? <span>{saved.favorites.length}</span> : null}</>}
+                  <span className="library-tab-content">
+                    {t === "all" && <><BookOpen size={16} aria-hidden="true" />All papers</>}
+                    {t === "recent" && <><Clock3 size={16} aria-hidden="true" />Recent{recentItems.length ? <span className="library-tab-count">{recentItems.length}</span> : null}</>}
+                    {t === "favorites" && <><Star size={16} aria-hidden="true" />Favorites{saved.favorites.length ? <span className="library-tab-count">{saved.favorites.length}</span> : null}</>}
+                  </span>
                 </button>
               ))}
             </div>
