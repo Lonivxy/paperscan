@@ -1168,11 +1168,16 @@ a {
     transform 160ms var(--md-sys-motion-easing-emphasized-decelerate);
 }
 
-.library-tabs button > *:not(.tab-glide-pill) {
+.library-tabs button .library-tab-content {
   position: relative;
   z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: inherit;
 }
 
+.library-tabs button .library-tab-glide-pill,
 .library-tabs button .tab-glide-pill {
   position: absolute;
   inset: 0;
@@ -1189,7 +1194,8 @@ a {
   background: color-mix(in oklab, var(--md-sys-color-secondary-container) calc((1 - var(--md-sys-state-hover-opacity)) * 100%), var(--md-sys-color-on-secondary-container));
 }
 
-.library-tabs button.is-active {
+.library-tabs button.is-active,
+.library-tabs button.is-active:hover {
   background: transparent;
   color: var(--md-sys-color-on-secondary);
 }
@@ -1198,7 +1204,7 @@ a {
   transform: scale(0.97);
 }
 
-.library-tabs button span:not(.tab-glide-pill) {
+.library-tabs button .library-tab-count {
   display: inline-grid;
   min-width: 20px;
   height: 20px;
