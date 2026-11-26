@@ -120,6 +120,7 @@ function App() {
   const scanSessionRef = useRef(0);
   const audioContextRef = useRef<AudioContext | null>(null);
   const startScanRef = useRef<() => void>(() => {});
+  const exampleTimerRef = useRef<number | undefined>(undefined);
 
   const applyStoreWrite = useCallback((write: PaperScanWrite) => {
     setSavedState(write.state);
@@ -213,6 +214,7 @@ function App() {
     window.addEventListener("pageshow", refreshSavedState);
     window.addEventListener("storage", refreshSavedState);
     return () => {
+      if (exampleTimerRef.current !== undefined) window.clearTimeout(exampleTimerRef.current);
       window.removeEventListener("pageshow", refreshSavedState);
       window.removeEventListener("storage", refreshSavedState);
       void audioContextRef.current?.close();
@@ -430,7 +432,11 @@ function App() {
     setCode("P61109A");
     setCopiedExample(true);
     setNotice({ tone: "info", title: "Example code filled in", detail: "Tap Find paper to open it." });
-    window.setTimeout(() => setCopiedExample(false), 2000);
+    if (exampleTimerRef.current !== undefined) window.clearTimeout(exampleTimerRef.current);
+    exampleTimerRef.current = window.setTimeout(() => {
+      exampleTimerRef.current = undefined;
+      setCopiedExample(false);
+    }, 2000);
   }
 
   async function recognizePhoto(event: ChangeEvent<HTMLInputElement>) {
@@ -775,7 +781,7 @@ function App() {
                       initial={reduced ? false : { height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={reduced ? { opacity: 0 } : { height: 0, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 340, damping: 34 }}
+                      transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 340, damping: 34 }}
                       style={{ overflow: "hidden" }}
                     >
                       {subjects.map((s) => (
